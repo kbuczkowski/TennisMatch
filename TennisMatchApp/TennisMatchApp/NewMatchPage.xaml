@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TennisMatchApp.NewMatchPage"
+             Title="New match">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout
+                    Grid.Column="0">
+                    <Entry
+                        Placeholder="Player 1"
+                        MaxLength="25"
+                        x:Name="entry_firstPlayer"/>
+                    <Entry
+                        Placeholder="Player 2"
+                        MaxLength="25"
+                        x:Name="entry_secondPlayer"/>
+                </StackLayout>
+                <StackLayout
+                    Grid.Column="1">
+                    <Button
+                        x:Name="b_p1_to_serve"
+                        CornerRadius="20"
+                        BackgroundColor="GreenYellow"
+                        Text="SERVICE"
+                        Clicked="P1_To_Serve_Clicked"/>
+                    <Button
+                        x:Name="b_p2_to_serve"
+                        CornerRadius="20"
+                        BackgroundColor="LightGray"
+                        Text=""
+                        Clicked="P2_To_Serve_Clicked"/>
+                </StackLayout>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Padding="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="60*"/>
+                    <ColumnDefinition
+                        Width="13*"/>
+                    <ColumnDefinition
+                        Width="14*"/>
+                    <ColumnDefinition
+                        Width="13*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="auto"/>
+                    <RowDefinition
+                        Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    FontSize="Large"
+                    Text="Sets to win match:"/>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="35"
+                    Text="-"
+                    Command="{Binding Sets_Minus_Clicked}"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    FontSize="Large"
+                    Text="{Binding SetsToWin}"/>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    HeightRequest="35"
+                    Text="+"
+                    Command="{Binding Sets_Plus_Clicked}"/>
+                
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    FontSize="Large"
+                    Text="Games to win set:"/>
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="35"
+                    Text="-"
+                    Command="{Binding Games_Minus_Clicked}"/>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    FontSize="Large"
+                    Text="{Binding GamesToWin}"/>
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    HeightRequest="35"
+                    Text="+"
+                    Command="{Binding Games_Plus_Clicked}"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

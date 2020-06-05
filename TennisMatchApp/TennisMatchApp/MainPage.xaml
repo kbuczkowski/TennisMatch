@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TennisMatchApp.MainPage"
+             Title="Your matches">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="+"
+            Clicked="Add_Match_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <ListView
+            x:Name="matches_list_view">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="60*"/>
+                                <ColumnDefinition Width="20*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50*"/>
+                                    <RowDefinition Height="50*"/>
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    HorizontalTextAlignment="Start"
+                                    FontAttributes="Bold"
+                                    Text="{Binding playerOne}"/>
+                                <Label
+                                    Grid.Row="0"
+                                    HorizontalTextAlignment="Center"
+                                    Text="vs"/>
+                                <Label
+                                    Grid.Row="0"
+                                    HorizontalTextAlignment="End"
+                                    FontAttributes="Bold"
+                                    Text="{Binding playerTwo}"/>
+
+                                <Label
+                                    Grid.Row="1"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding scoreOne}"/>
+                                <Label
+                                    Grid.Row="1"
+                                    HorizontalTextAlignment="Center"
+                                    Text=":"/>
+                                <Label
+                                    Grid.Row="1"
+                                    HorizontalTextAlignment="End"
+                                    Text="{Binding scoreTwo}"/>
+                            </Grid>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
