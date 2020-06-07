@@ -15,8 +15,8 @@ namespace TennisMatchApp
         public NewMatchPage()
         {
             InitializeComponent();
-            BindingContext = new NewMatchViewModel();
         }
+        //methods just to handle proper appearance of buttons
         private void P1_To_Serve_Clicked(object sender, EventArgs e)
         {
             b_p1_to_serve.Text = "SERVE";

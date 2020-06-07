@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="TennisMatchApp.ViewModels"
              mc:Ignorable="d"
              x:Class="TennisMatchApp.NewMatchPage"
              Title="New match">
+    <ContentPage.BindingContext>
+        <m:NewMatchViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -36,14 +40,16 @@
                         x:Name="b_p1_to_serve"
                         CornerRadius="20"
                         BackgroundColor="GreenYellow"
-                        Text="SERVICE"
-                        Clicked="P1_To_Serve_Clicked"/>
+                        Text="SERVE"
+                        Clicked="P1_To_Serve_Clicked"
+                        Command="{Binding P1_To_Serve_Clicked}"/>
                     <Button
                         x:Name="b_p2_to_serve"
                         CornerRadius="20"
                         BackgroundColor="LightGray"
                         Text=""
-                        Clicked="P2_To_Serve_Clicked"/>
+                        Clicked="P2_To_Serve_Clicked"
+                        Command="{Binding P2_To_Serve_Clicked}"/>
                 </StackLayout>
             </Grid>
             <Grid
@@ -51,15 +57,23 @@
                 Padding="15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
-                        Width="60*"/>
+                        Width="65*"/>
                     <ColumnDefinition
-                        Width="13*"/>
+                        Width="12*"/>
                     <ColumnDefinition
-                        Width="14*"/>
+                        Width="11*"/>
                     <ColumnDefinition
-                        Width="13*"/>
+                        Width="12*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="auto"/>
+                    <RowDefinition
+                        Height="auto"/>
+                    <RowDefinition
+                        Height="auto"/>
+                    <RowDefinition
+                        Height="auto"/>
                     <RowDefinition
                         Height="auto"/>
                     <RowDefinition
@@ -89,7 +103,7 @@
                     HeightRequest="35"
                     Text="+"
                     Command="{Binding Sets_Plus_Clicked}"/>
-                
+
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
@@ -114,6 +128,69 @@
                     HeightRequest="35"
                     Text="+"
                     Command="{Binding Games_Plus_Clicked}"/>
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    FontSize="Large"
+                    Text="Points to win tiebreak:"/>
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HeightRequest="35"
+                    Text="-"
+                    Command="{Binding TieBreak_Minus_Clicked}"/>
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="Large"
+                    Text="{Binding PointsToWinTieBreak}"/>
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    HeightRequest="35"
+                    Text="+"
+                    Command="{Binding TieBreak_Plus_Clicked}"/>
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    FontSize="Large"
+                    Text="Advantage play:"/>
+                <Switch
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="End"
+                    OnColor="GreenYellow"
+                    ThumbColor="LightGray"
+                    IsToggled="{Binding AdvantagePlay}"/>
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    FontSize="Large"
+                    Text="Advanced stats:"/>
+                <Switch
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="End"
+                    OnColor="GreenYellow"
+                    ThumbColor="LightGray"
+                    IsToggled="{Binding AdvancedStats}"/>
+
+                <Button
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    CornerRadius="10"
+                    Text="Create"/>
             </Grid>
         </Grid>
     </ContentPage.Content>
