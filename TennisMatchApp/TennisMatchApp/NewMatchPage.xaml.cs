@@ -14,6 +14,7 @@ namespace TennisMatchApp
     {
         public NewMatchPage()
         {
+            BindingContext = new NewMatchViewModel(Navigation, this);
             InitializeComponent();
         }
         //methods just to handle proper appearance of buttons

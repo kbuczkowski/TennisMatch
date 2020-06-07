@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,6 +9,7 @@ namespace TennisMatchApp
     public partial class App : Application
     {
         public string file_path = string.Empty;
+        public static ObservableCollection<Match> matches = new ObservableCollection<Match>();
         public App()
         {
             InitializeComponent();

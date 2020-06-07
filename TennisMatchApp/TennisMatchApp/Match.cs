@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TennisMatchApp
 {
-    class Match
+    public class Match
     {
-        public string p1, p2;
+        public string p1_Name, p2_Name;
 
         #region settings
         public int setsToWin, gamesToWin, pointsToWinTieBreak;
@@ -28,10 +28,19 @@ namespace TennisMatchApp
         public int p1_Aces, p1_ForcedErrors, p1_UnforcedErrors, p1_FirstServeIn, p1_DoubleFaults, p1_ServePointsPlayed, p1_Winners, p1_ForehandWinners, p1_BackhandWinners, p1_ForehandUnforcedErrors, p1_BackhandUnforcedErrors,
                    p2_Aces, p2_ForcedErrors, p2_UnforcedErrors, p2_FirstServeIn, p2_DoubleFaults, p2_ServePointsPlayed, p2_Winners, p2_ForehandWinners, p2_BackhandWinners, p2_ForehandUnforcedErrors, p2_BackhandUnforcedErrors;
         #endregion
+
+        public string P1_Name
+        {
+            get { return p1_Name; }
+        }
+        public string P2_Name
+        {
+            get { return p2_Name; }
+        }
         public Match(string p_p1, string p_p2, int p_setsToWin, int p_gamesToWin, int p_pointsToWinTieBreak, bool p_advantagePlay, bool p_firstPlayerToServe, bool p_advancedStats)
         {
-            p1 = p_p1;
-            p2 = p_p2;
+            p1_Name = p_p1;
+            p2_Name = p_p2;
             setsToWin = p_setsToWin;
             gamesToWin = p_gamesToWin;
             pointsToWinTieBreak = p_pointsToWinTieBreak;

@@ -34,7 +34,7 @@
                                     Grid.Row="0"
                                     HorizontalTextAlignment="Start"
                                     FontAttributes="Bold"
-                                    Text="{Binding playerOne}"/>
+                                    Text="{Binding P1_Name}"/>
                                 <Label
                                     Grid.Row="0"
                                     HorizontalTextAlignment="Center"
@@ -43,20 +43,7 @@
                                     Grid.Row="0"
                                     HorizontalTextAlignment="End"
                                     FontAttributes="Bold"
-                                    Text="{Binding playerTwo}"/>
-
-                                <Label
-                                    Grid.Row="1"
-                                    HorizontalTextAlignment="Start"
-                                    Text="{Binding scoreOne}"/>
-                                <Label
-                                    Grid.Row="1"
-                                    HorizontalTextAlignment="Center"
-                                    Text=":"/>
-                                <Label
-                                    Grid.Row="1"
-                                    HorizontalTextAlignment="End"
-                                    Text="{Binding scoreTwo}"/>
+                                    Text="{Binding P2_Name}"/>
                             </Grid>
                         </Grid>
                     </ViewCell>

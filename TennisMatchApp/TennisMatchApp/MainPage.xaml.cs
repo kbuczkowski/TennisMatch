@@ -15,6 +15,7 @@ namespace TennisMatchApp
         public MainPage()
         {
             InitializeComponent();
+            matches_list_view.ItemsSource = App.matches;
         }
         private void Add_Match_Clicked(object sender, EventArgs e)
         {

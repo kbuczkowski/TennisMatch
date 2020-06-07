@@ -6,10 +6,85 @@
              mc:Ignorable="d"
              x:Class="TennisMatchApp.MatchPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="auto"/>
+                <RowDefinition
+                    Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="*"/>
+                    <RowDefinition
+                        Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                    <ColumnDefinition
+                        Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontSize="Large"
+                    Text="Kacper"/>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontSize="Large"
+                    Text="Angelika"/>
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BackgroundColor="BlueViolet"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Padding="5, 0, 5, 0"
+                    TextColor="White"
+                    FontSize="Large"
+                    Text="6"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    FontSize="Large"
+                    Text="6"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    FontSize="Large"
+                    Text="6"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    FontSize="Large"
+                    Text="6"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    FontSize="Large"
+                    Text="6"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="6"
+                    FontSize="Large"
+                    Text="40"/>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

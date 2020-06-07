@@ -11,7 +11,11 @@ namespace TennisMatchApp
     {
         private int _setsToWin = 2, _gamesToWin = 6, _pointsToWinTieBreak = 7;
         private bool _firstPlayerToServe = true, _advantagePlay = true, _advancedStats = false;
+        private string _p1_Name, _p2_Name;
+
         public event PropertyChangedEventHandler PropertyChanged;
+        INavigation Navigation;
+        Page page;
         public ICommand Sets_Plus_Clicked { get; set; }
         public ICommand Sets_Minus_Clicked { get; set; }
         public ICommand Games_Plus_Clicked { get; set; }
@@ -20,9 +24,13 @@ namespace TennisMatchApp
         public ICommand TieBreak_Minus_Clicked { get; set; }
         public ICommand P1_To_Serve_Clicked { get; set; }
         public ICommand P2_To_Serve_Clicked { get; set; }
+        public ICommand Create_Match_Clicked { get; set; }
 
-        public NewMatchViewModel()
+        public NewMatchViewModel(INavigation p_Navigation, Page p_page)
         {
+            this.Navigation = p_Navigation;
+            this.page = p_page;
+
             Sets_Plus_Clicked = new Command(Sets_Plus);
             Sets_Minus_Clicked = new Command(Sets_Minus);
             Games_Plus_Clicked = new Command(Games_Plus);
@@ -31,13 +39,37 @@ namespace TennisMatchApp
             TieBreak_Minus_Clicked = new Command(TieBreak_Minus);
             P1_To_Serve_Clicked = new Command(P1_To_Serve);
             P2_To_Serve_Clicked = new Command(P2_To_Serve);
+            Create_Match_Clicked = new Command(Create_Match);
         }
 
         void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
+        public string P1_Name
+        {
+            get
+            {
+                return _p1_Name;
+            }
+            set
+            {
+                _p1_Name = value;
+                OnPropertyChanged(nameof(P1_Name));
+            }
+        }
+        public string P2_Name
+        {
+            get
+            {
+                return _p2_Name;
+            }
+            set
+            {
+                _p2_Name = value;
+                OnPropertyChanged(nameof(P2_Name));
+            }
+        }
         public string SetsToWin
         {
             get
@@ -148,6 +180,19 @@ namespace TennisMatchApp
         void P2_To_Serve(object obj)
         {
             _firstPlayerToServe = false;
+        }
+        void Create_Match(object obj)
+        {
+            if (!String.IsNullOrEmpty(P1_Name) && !String.IsNullOrEmpty(P2_Name))
+            {
+                App.matches.Add(new Match(_p1_Name, _p2_Name, _setsToWin, _gamesToWin, _pointsToWinTieBreak, _advantagePlay, _firstPlayerToServe, _advancedStats));
+                Navigation.PopAsync();
+                Navigation.PushAsync(new MatchPage());
+            }
+            else
+            {
+                page.DisplayAlert("Error", "Player's names cannot be empty.", "Ok");
+            }
         }
     }
 }

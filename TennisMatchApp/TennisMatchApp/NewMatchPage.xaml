@@ -3,13 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:m="TennisMatchApp.ViewModels"
              mc:Ignorable="d"
              x:Class="TennisMatchApp.NewMatchPage"
              Title="New match">
-    <ContentPage.BindingContext>
-        <m:NewMatchViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -28,11 +24,11 @@
                     <Entry
                         Placeholder="Player 1"
                         MaxLength="25"
-                        x:Name="entry_firstPlayer"/>
+                        Text="{Binding P1_Name}"/>
                     <Entry
                         Placeholder="Player 2"
                         MaxLength="25"
-                        x:Name="entry_secondPlayer"/>
+                        Text="{Binding P2_Name}"/>
                 </StackLayout>
                 <StackLayout
                     Grid.Column="1">
@@ -190,7 +186,8 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     CornerRadius="10"
-                    Text="Create"/>
+                    Text="Create"
+                    Command="{Binding Create_Match_Clicked}"/>
             </Grid>
         </Grid>
     </ContentPage.Content>
