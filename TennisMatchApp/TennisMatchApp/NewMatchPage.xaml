@@ -23,11 +23,11 @@
                     Grid.Column="0">
                     <Entry
                         Placeholder="Player 1"
-                        MaxLength="25"
+                        MaxLength="12"
                         Text="{Binding P1_Name}"/>
                     <Entry
                         Placeholder="Player 2"
-                        MaxLength="25"
+                        MaxLength="12"
                         Text="{Binding P2_Name}"/>
                 </StackLayout>
                 <StackLayout
