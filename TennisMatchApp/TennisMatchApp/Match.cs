@@ -4,6 +4,14 @@ using System.Text;
 
 namespace TennisMatchApp
 {
+    public enum Set
+    {
+        First,
+        Second,
+        Third,
+        Fourth,
+        Fifth,
+    }
     public class Match
     {
         public string p1_Name, p2_Name;
@@ -15,8 +23,9 @@ namespace TennisMatchApp
         #endregion
 
         #region scores
-        public int p1_SetsWon, p2_SetsWon, actualSet;
+        public int p1_SetsWon, p2_SetsWon, p1_actualScore, p2_actualScore;
         public List<int> p1_GamesWon, p2_GamesWon;
+        public Set _actualSet;
         #endregion
 
         #region players basic statistics
@@ -28,15 +37,6 @@ namespace TennisMatchApp
         public int p1_Aces, p1_ForcedErrors, p1_UnforcedErrors, p1_FirstServeIn, p1_DoubleFaults, p1_ServePointsPlayed, p1_Winners, p1_ForehandWinners, p1_BackhandWinners, p1_ForehandUnforcedErrors, p1_BackhandUnforcedErrors,
                    p2_Aces, p2_ForcedErrors, p2_UnforcedErrors, p2_FirstServeIn, p2_DoubleFaults, p2_ServePointsPlayed, p2_Winners, p2_ForehandWinners, p2_BackhandWinners, p2_ForehandUnforcedErrors, p2_BackhandUnforcedErrors;
         #endregion
-
-        public string P1_Name
-        {
-            get { return p1_Name; }
-        }
-        public string P2_Name
-        {
-            get { return p2_Name; }
-        }
         public Match(string p_p1, string p_p2, int p_setsToWin, int p_gamesToWin, int p_pointsToWinTieBreak, bool p_advantagePlay, bool p_firstPlayerToServe, bool p_advancedStats)
         {
             p1_Name = p_p1;
@@ -49,11 +49,15 @@ namespace TennisMatchApp
             advancedStats = p_advancedStats;
             p1_SetsWon = 0;
             p2_SetsWon = 0;
+            p1_actualScore = 0;
+            p2_actualScore = 0;
             p1_GamesWon = new List<int>();
             p2_GamesWon = new List<int>();
+            p1_GamesWon.Add(0);
+            p2_GamesWon.Add(0);
             matchEnded = false;
             date = new DateTime();
-            actualSet = 0;
+            _actualSet = Set.First;
 
             p1_PointsWon = 0;
             p1_BreakPoints = 0;
