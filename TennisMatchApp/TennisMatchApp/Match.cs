@@ -53,11 +53,15 @@ namespace TennisMatchApp
             p2_actualScore = 0;
             p1_GamesWon = new List<int>();
             p2_GamesWon = new List<int>();
-            p1_GamesWon.Add(0);
-            p2_GamesWon.Add(0);
             matchEnded = false;
             date = new DateTime();
             _actualSet = Set.First;
+
+            for(int i = 0; i < (setsToWin * 2) - 1; i++)
+            {
+                p1_GamesWon.Add(0);
+                p2_GamesWon.Add(0);
+            }
 
             p1_PointsWon = 0;
             p1_BreakPoints = 0;

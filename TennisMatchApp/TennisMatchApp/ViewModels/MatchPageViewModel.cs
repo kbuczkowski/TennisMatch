@@ -20,8 +20,9 @@ namespace TennisMatchApp
             this.match = p_match;
             this.page = p_page;
 
-            P1_Point_Clicked = new Command(P1_Point);
-            P2_Point_Clicked = new Command(P2_Point);
+            P1_Point_Clicked = new Command(P1_Point, ButtonsEnable);
+            
+            P2_Point_Clicked = new Command(P2_Point, ButtonsEnable);
         }
 
         void OnPropertyChanged(string name)
@@ -198,6 +199,22 @@ namespace TennisMatchApp
                 OnPropertyChanged(nameof(ActualSet));
             }
         }
+        public bool MatchEnded
+        {
+            get 
+            {
+                return match.matchEnded; 
+            }
+            set
+            {
+                match.matchEnded = value;
+                OnPropertyChanged(nameof(MatchEnded));
+            }
+        }
+        bool ButtonsEnable(object parameter)
+        {
+            return !MatchEnded;
+        }
         void P1_Point(object obj)
         {
             if (match.p1_actualScore == 0)
@@ -217,23 +234,30 @@ namespace TennisMatchApp
                         P1_FirstSet = (match.p1_GamesWon[0] + 1).ToString();
                         break;
                     case Set.Second:
-                        P1_FirstSet = (match.p1_GamesWon[1] + 1).ToString();
+                        P1_SecondSet = (match.p1_GamesWon[1] + 1).ToString();
                         break;
                     case Set.Third:
-                        P1_FirstSet = (match.p1_GamesWon[2] + 1).ToString();
+                        P1_ThirdSet = (match.p1_GamesWon[2] + 1).ToString();
                         break;
                     case Set.Fourth:
-                        P1_FirstSet = (match.p1_GamesWon[3] + 1).ToString();
+                        P1_FourthSet = (match.p1_GamesWon[3] + 1).ToString();
                         break;
                     case Set.Fifth:
-                        P1_FirstSet = (match.p1_GamesWon[4] + 1).ToString();
+                        P1_FifthSet = (match.p1_GamesWon[4] + 1).ToString();
                         break;
                 }
 
-                if (match.p1_GamesWon[(int)ActualSet] >= 6 && match.p2_GamesWon[(int)ActualSet] <= match.p1_GamesWon[(int)ActualSet])
+                if (match.p1_GamesWon[(int)ActualSet] >= 6 && match.p1_GamesWon[(int)ActualSet] >= match.p2_GamesWon[(int)ActualSet] + 2)
                 {
                     match.p1_SetsWon++;
-                    ActualSet = (Set)((int)ActualSet + 1);
+                    if(match.p1_SetsWon >= match.setsToWin)
+                    {
+                        MatchEnded = true;
+                    }
+                    else
+                    {
+                        ActualSet = (Set)((int)ActualSet + 1);
+                    }
                 }
             }
         }
@@ -256,21 +280,28 @@ namespace TennisMatchApp
                         P2_FirstSet = (match.p2_GamesWon[0] + 1).ToString();
                         break;
                     case Set.Second:
-                        P2_FirstSet = (match.p2_GamesWon[1] + 1).ToString();
+                        P2_SecondSet = (match.p2_GamesWon[1] + 1).ToString();
                         break;
                     case Set.Third:
-                        P2_FirstSet = (match.p2_GamesWon[2] + 1).ToString();
+                        P2_ThirdSet = (match.p2_GamesWon[2] + 1).ToString();
                         break;
                     case Set.Fourth:
-                        P2_FirstSet = (match.p2_GamesWon[3] + 1).ToString();
+                        P2_FourthSet = (match.p2_GamesWon[3] + 1).ToString();
                         break;
                     case Set.Fifth:
-                        P2_FirstSet = (match.p2_GamesWon[4] + 1).ToString();
+                        P2_FifthSet = (match.p2_GamesWon[4] + 1).ToString();
                         break;
                 }
-                if (match.p2_GamesWon[(int)ActualSet] >= 6 && match.p1_GamesWon[(int)ActualSet] <= match.p2_GamesWon[(int)ActualSet]){
+                if (match.p2_GamesWon[(int)ActualSet] >= 6 && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int) ActualSet] + 2){
                     match.p2_SetsWon++;
-                    ActualSet = (Set)(ActualSet + 1);
+                    if (match.p2_SetsWon >= match.setsToWin)
+                    {
+                        MatchEnded = true;
+                    }
+                    else
+                    {
+                        ActualSet = (Set)((int)ActualSet + 1);
+                    }
                 }
             }
         }

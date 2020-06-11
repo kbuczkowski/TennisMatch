@@ -477,8 +477,21 @@
                     </ContentView.Style>
                 </ContentView>
 
-                <StackLayout
+                <ContentView
                 Grid.Column="2">
+                    <ContentView.Style>
+                        <Style TargetType="ContentView">
+                            <Style.Triggers>
+                                <DataTrigger 
+                                    TargetType="ContentView"
+                                    Binding="{Binding MatchEnded}"
+                                    Value="true">
+                                    <Setter Property="IsVisible" Value="false"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentView.Style>
+                <StackLayout>
                     <Frame
                     BackgroundColor="LightSkyBlue"
                     Padding="5"
@@ -498,6 +511,7 @@
                         Text="{Binding P2_ActualScore}"/>
                     </Frame>
                 </StackLayout>
+                </ContentView>
             </Grid>
 
             <Grid
