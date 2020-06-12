@@ -23,6 +23,7 @@ namespace TennisMatchApp
 
         #region scores
         public int p1_SetsWon, p2_SetsWon, p1_actualScore, p2_actualScore;
+        public bool p1_advantage = false, p2_advantage = false, tiebreakEnabled = false;
         public List<int> p1_GamesWon, p2_GamesWon;
         public Set _actualSet;
         #endregion

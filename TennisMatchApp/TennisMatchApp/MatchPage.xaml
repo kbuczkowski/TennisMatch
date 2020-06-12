@@ -55,7 +55,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FirstSet}"/>
@@ -77,7 +77,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_SecondSet}"/>
@@ -113,7 +113,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FirstSet}"/>
@@ -135,7 +135,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_SecondSet}"/>
@@ -157,7 +157,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_ThirdSet}"/>
@@ -195,7 +195,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FirstSet}"/>
@@ -217,7 +217,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_SecondSet}"/>
@@ -239,7 +239,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_ThirdSet}"/>
@@ -261,7 +261,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FourthSet}"/>
@@ -301,7 +301,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FirstSet}"/>
@@ -323,7 +323,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_SecondSet}"/>
@@ -345,7 +345,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_ThirdSet}"/>
@@ -367,7 +367,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FourthSet}"/>
@@ -389,7 +389,7 @@
                         BackgroundColor="DarkBlue"
                         Padding="5"
                         CornerRadius="5">
-                    <Label
+                        <Label
                             FontSize="Large"
                             TextColor="White"
                             Text="{Binding P1_FifthSet}"/>
@@ -422,23 +422,40 @@
                     <ColumnDefinition
                     Width="auto"/>
                 </Grid.ColumnDefinitions>
+
                 <StackLayout
                 Grid.Column="0">
                     <Frame
                     BackgroundColor="LightBlue"
                     Padding="5"
                     CornerRadius="5">
-                        <Label
+                        <StackLayout
+                            Orientation="Horizontal">
+                            <Label
                         FontSize="Large"
                         Text="{Binding P1_Name}"/>
+                            <Frame
+                        Grid.Row="0"
+                        BackgroundColor="GreenYellow"
+                        Padding="3"
+                        CornerRadius="50"/>
+                        </StackLayout>
                     </Frame>
                     <Frame
                     BackgroundColor="LightBlue"
                     Padding="5"
                     CornerRadius="5">
-                        <Label
+                        <StackLayout
+                            Orientation="Horizontal">
+                            <Label
                         FontSize="Large"
                         Text="{Binding P2_Name}"/>
+                            <Frame
+                        Grid.Row="0"
+                        BackgroundColor="GreenYellow"
+                        Padding="3"
+                        CornerRadius="50"/>
+                        </StackLayout>
                     </Frame>
                 </StackLayout>
 
@@ -491,26 +508,26 @@
                             </Style.Triggers>
                         </Style>
                     </ContentView.Style>
-                <StackLayout>
-                    <Frame
+                    <StackLayout>
+                        <Frame
                     BackgroundColor="LightSkyBlue"
                     Padding="5"
                     CornerRadius="5">
-                        <Label
+                            <Label
                         FontSize="Large"
                         TextColor="Black"
                         Text="{Binding P1_ActualScore}"/>
-                    </Frame>
-                    <Frame
+                        </Frame>
+                        <Frame
                     BackgroundColor="LightSkyBlue"
                     Padding="5"
                     CornerRadius="5">
-                        <Label
+                            <Label
                         FontSize="Large"
                         TextColor="Black"
                         Text="{Binding P2_ActualScore}"/>
-                    </Frame>
-                </StackLayout>
+                        </Frame>
+                    </StackLayout>
                 </ContentView>
             </Grid>
 

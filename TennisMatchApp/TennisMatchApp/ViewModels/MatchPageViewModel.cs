@@ -161,11 +161,27 @@ namespace TennisMatchApp
         {
             get
             {
-                return match.p1_actualScore.ToString();
+                if (match.p1_actualScore == 40 && match.p2_actualScore == 40)
+                {
+                    if (match.p1_advantage)
+                        return "Ad";
+                    else if (!match.p1_advantage && !match.p2_advantage)
+                        return match.p1_actualScore.ToString();
+                    else
+                        return String.Empty;
+                }
+                else
+                    return match.p1_actualScore.ToString();
             }
             set
             {
-                match.p1_actualScore = Int32.Parse(value);
+                if (value != "Ad")
+                    match.p1_actualScore = Int32.Parse(value);
+                else
+                {
+                    match.p1_advantage = true;
+                    OnPropertyChanged(nameof(P2_ActualScore));
+                }
                 OnPropertyChanged(nameof(P1_ActualScore));
             }
         }
@@ -173,11 +189,27 @@ namespace TennisMatchApp
         {
             get
             {
-                return match.p2_actualScore.ToString();
+                if (match.p2_actualScore == 40 && match.p1_actualScore == 40)
+                {
+                    if (match.p2_advantage)
+                        return "Ad";
+                    else if (!match.p2_advantage && !match.p1_advantage)
+                        return match.p2_actualScore.ToString();
+                    else
+                        return String.Empty;
+                }
+                else
+                    return match.p2_actualScore.ToString();
             }
             set
             {
-                match.p2_actualScore = Int32.Parse(value);
+                if (value != "Ad")
+                    match.p2_actualScore = Int32.Parse(value);
+                else
+                {
+                    match.p2_advantage = true;
+                    OnPropertyChanged(nameof(P1_ActualScore));
+                }
                 OnPropertyChanged(nameof(P2_ActualScore));
             }
         }
@@ -195,9 +227,9 @@ namespace TennisMatchApp
         }
         public bool MatchEnded
         {
-            get 
+            get
             {
-                return match.matchEnded; 
+                return match.matchEnded;
             }
             set
             {
@@ -211,96 +243,194 @@ namespace TennisMatchApp
         }
         void P1_Point(object obj)
         {
-            if (match.p1_actualScore == 0)
-                P1_ActualScore = "15";
-            else if (match.p1_actualScore == 15)
-                P1_ActualScore = "30";
-            else if (match.p1_actualScore == 30)
-                P1_ActualScore = "40";
-            else if (match.p1_actualScore == 40 && match.p2_actualScore < 40)
+            if (!match.tiebreakEnabled)
             {
-                P1_ActualScore = "0";
-                P2_ActualScore = "0";
-
-                switch (ActualSet)
+                if (match.p1_actualScore == 0)
+                    P1_ActualScore = "15";
+                else if (match.p1_actualScore == 15)
+                    P1_ActualScore = "30";
+                else if (match.p1_actualScore == 30)
+                    P1_ActualScore = "40";
+                else if (match.p1_actualScore == 40 && match.p2_actualScore < 40) // if game won
                 {
-                    case Set.First:
-                        P1_FirstSet = (match.p1_GamesWon[0] + 1).ToString();
-                        break;
-                    case Set.Second:
-                        P1_SecondSet = (match.p1_GamesWon[1] + 1).ToString();
-                        break;
-                    case Set.Third:
-                        P1_ThirdSet = (match.p1_GamesWon[2] + 1).ToString();
-                        break;
-                    case Set.Fourth:
-                        P1_FourthSet = (match.p1_GamesWon[3] + 1).ToString();
-                        break;
-                    case Set.Fifth:
-                        P1_FifthSet = (match.p1_GamesWon[4] + 1).ToString();
-                        break;
+                    P1_Won_Game();
                 }
-
-                if (match.p1_GamesWon[(int)ActualSet] >= 6 && match.p1_GamesWon[(int)ActualSet] >= match.p2_GamesWon[(int)ActualSet] + 2)
+                else if (match.p1_actualScore == 40 && match.p2_actualScore == 40)
                 {
-                    match.p1_SetsWon++;
-                    if(match.p1_SetsWon >= match.setsToWin)
-                    {
-                        MatchEnded = true;
-                        P1_Point_Clicked.ChangeCanExecute();
-                        P2_Point_Clicked.ChangeCanExecute();
-                    }
+                    if (!match.advantagePlay)
+                        P1_Won_Game();
                     else
                     {
-                        ActualSet = (Set)((int)ActualSet + 1);
+                        if (match.p1_advantage)
+                            P1_Won_Game();
+                        else
+                        {
+                            if (match.p2_advantage)
+                            {
+                                match.p2_advantage = false;
+                                OnPropertyChanged(nameof(P1_ActualScore));
+                                OnPropertyChanged(nameof(P2_ActualScore));
+                            }
+                            else
+                            {
+                                P1_ActualScore = "Ad";
+                            }
+                        }
                     }
+                }
+            }
+            else
+            {
+                P1_ActualScore = (match.p1_actualScore + 1).ToString();
+
+                if(match.p1_actualScore >= match.pointsToWinTieBreak && match.p1_actualScore >= match.p2_actualScore + 2)
+                {
+                    P1_Won_Game();
                 }
             }
         }
         void P2_Point(object obj)
         {
-            if (match.p2_actualScore == 0)
-                P2_ActualScore = "15";
-            else if (match.p2_actualScore == 15)
-                P2_ActualScore = "30";
-            else if (match.p2_actualScore == 30)
-                P2_ActualScore = "40";
-            else if (match.p2_actualScore == 40 && match.p1_actualScore < 40) //game won
+            if (!match.tiebreakEnabled)
             {
-                P1_ActualScore = "0";
-                P2_ActualScore = "0";
-
-                switch (ActualSet)
+                if (match.p2_actualScore == 0)
+                    P2_ActualScore = "15";
+                else if (match.p2_actualScore == 15)
+                    P2_ActualScore = "30";
+                else if (match.p2_actualScore == 30)
+                    P2_ActualScore = "40";
+                else if (match.p2_actualScore == 40 && match.p1_actualScore < 40) // if game won
                 {
-                    case Set.First:
-                        P2_FirstSet = (match.p2_GamesWon[0] + 1).ToString();
-                        break;
-                    case Set.Second:
-                        P2_SecondSet = (match.p2_GamesWon[1] + 1).ToString();
-                        break;
-                    case Set.Third:
-                        P2_ThirdSet = (match.p2_GamesWon[2] + 1).ToString();
-                        break;
-                    case Set.Fourth:
-                        P2_FourthSet = (match.p2_GamesWon[3] + 1).ToString();
-                        break;
-                    case Set.Fifth:
-                        P2_FifthSet = (match.p2_GamesWon[4] + 1).ToString();
-                        break;
+                    P2_Won_Game();
                 }
-                if (match.p2_GamesWon[(int)ActualSet] >= 6 && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int) ActualSet] + 2){
-                    match.p2_SetsWon++;
-                    if (match.p2_SetsWon >= match.setsToWin) //match won
-                    {
-                        MatchEnded = true;
-                        P1_Point_Clicked.ChangeCanExecute();
-                        P2_Point_Clicked.ChangeCanExecute();
-                    }
+                else if (match.p2_actualScore == 40 && match.p1_actualScore == 40)
+                {
+                    if (!match.advantagePlay)
+                        P2_Won_Game();
                     else
                     {
-                        ActualSet = (Set)((int)ActualSet + 1);
+                        {
+                            if (match.p2_advantage)
+                                P2_Won_Game();
+                            else
+                            {
+                                if (match.p1_advantage)
+                                {
+                                    match.p1_advantage = false;
+                                    OnPropertyChanged(nameof(P2_ActualScore));
+                                    OnPropertyChanged(nameof(P1_ActualScore));
+                                }
+                                else
+                                {
+                                    P2_ActualScore = "Ad";
+                                }
+                            }
+                        }
                     }
                 }
+            }
+            else
+            {
+                P2_ActualScore = (match.p2_actualScore + 1).ToString();
+
+                if (match.p2_actualScore >= match.pointsToWinTieBreak && match.p2_actualScore >= match.p1_actualScore + 2)
+                {
+                    P2_Won_Game();
+                }
+            }
+        }
+        void P1_Won_Game()
+        {
+            P1_ActualScore = "0";
+            P2_ActualScore = "0";
+            match.p1_advantage = false;
+            match.p2_advantage = false;
+            match.tiebreakEnabled = false;
+
+            switch (ActualSet)
+            {
+                case Set.First:
+                    P1_FirstSet = (match.p1_GamesWon[0] + 1).ToString();
+                    break;
+                case Set.Second:
+                    P1_SecondSet = (match.p1_GamesWon[1] + 1).ToString();
+                    break;
+                case Set.Third:
+                    P1_ThirdSet = (match.p1_GamesWon[2] + 1).ToString();
+                    break;
+                case Set.Fourth:
+                    P1_FourthSet = (match.p1_GamesWon[3] + 1).ToString();
+                    break;
+                case Set.Fifth:
+                    P1_FifthSet = (match.p1_GamesWon[4] + 1).ToString();
+                    break;
+            }
+
+            if ((match.p1_GamesWon[(int)ActualSet] >= match.gamesToWin && match.p1_GamesWon[(int)ActualSet] >= match.p2_GamesWon[(int)ActualSet] + 2) || (match.p1_GamesWon[(int)ActualSet] > match.gamesToWin && match.p2_GamesWon[(int)ActualSet] == match.gamesToWin)) // if set won
+            {
+                match.p1_SetsWon++;
+                if (match.p1_SetsWon >= match.setsToWin) // if match won
+                {
+                    MatchEnded = true;
+                    P1_Point_Clicked.ChangeCanExecute();
+                    P2_Point_Clicked.ChangeCanExecute();
+                }
+                else
+                {
+                    ActualSet = (Set)((int)ActualSet + 1);
+                }
+            }
+
+            if(match.p1_GamesWon[(int)ActualSet] == match.gamesToWin && match.p2_GamesWon[(int)ActualSet] == match.gamesToWin)
+            {
+                match.tiebreakEnabled = true;
+            }
+        }
+        void P2_Won_Game()
+        {
+            P1_ActualScore = "0";
+            P2_ActualScore = "0";
+            match.p1_advantage = false;
+            match.p2_advantage = false;
+            match.tiebreakEnabled = false;
+
+            switch (ActualSet)
+            {
+                case Set.First:
+                    P2_FirstSet = (match.p2_GamesWon[0] + 1).ToString();
+                    break;
+                case Set.Second:
+                    P2_SecondSet = (match.p2_GamesWon[1] + 1).ToString();
+                    break;
+                case Set.Third:
+                    P2_ThirdSet = (match.p2_GamesWon[2] + 1).ToString();
+                    break;
+                case Set.Fourth:
+                    P2_FourthSet = (match.p2_GamesWon[3] + 1).ToString();
+                    break;
+                case Set.Fifth:
+                    P2_FifthSet = (match.p2_GamesWon[4] + 1).ToString();
+                    break;
+            }
+
+            if ((match.p2_GamesWon[(int)ActualSet] >= match.gamesToWin && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int)ActualSet] + 2) || (match.p2_GamesWon[(int)ActualSet] > match.gamesToWin && match.p1_GamesWon[(int)ActualSet] == match.gamesToWin)) // if set won
+            {
+                match.p2_SetsWon++;
+                if (match.p2_SetsWon >= match.setsToWin) // if match won
+                {
+                    MatchEnded = true;
+                    P1_Point_Clicked.ChangeCanExecute();
+                    P2_Point_Clicked.ChangeCanExecute();
+                }
+                else
+                {
+                    ActualSet = (Set)((int)ActualSet + 1);
+                }
+            }
+
+            if(match.p2_GamesWon[(int)ActualSet] == match.gamesToWin && match.p1_GamesWon[(int)ActualSet] == match.gamesToWin)
+            {
+                match.tiebreakEnabled = true;
             }
         }
     }
