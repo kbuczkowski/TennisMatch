@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:my="clr-namespace:TennisMatchApp"
              mc:Ignorable="d"
-             x:Class="TennisMatchApp.MatchPage">
+             x:Class="TennisMatchApp.MatchPage"
+             Title="Match">
     <ContentPage.Resources>
         <ControlTemplate
             x:Key="FirstSet">
@@ -435,10 +436,12 @@
                         FontSize="Large"
                         Text="{Binding P1_Name}"/>
                             <Frame
-                        Grid.Row="0"
+                                HorizontalOptions="EndAndExpand"
                         BackgroundColor="GreenYellow"
-                        Padding="3"
-                        CornerRadius="50"/>
+                        Padding="4"
+                        CornerRadius="50"
+                                HasShadow="False"
+                                IsVisible="{Binding FirstPlayerToServe}"/>
                         </StackLayout>
                     </Frame>
                     <Frame
@@ -451,19 +454,22 @@
                         FontSize="Large"
                         Text="{Binding P2_Name}"/>
                             <Frame
-                        Grid.Row="0"
+                                HorizontalOptions="EndAndExpand"
                         BackgroundColor="GreenYellow"
-                        Padding="3"
-                        CornerRadius="50"/>
+                        Padding="4"
+                        CornerRadius="50"
+                                HasShadow="False"
+                                IsVisible="{Binding SecondPlayerToServe}"/>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-
+                
                 <ContentView
                     Grid.Column="1"
                     ControlTemplate="{StaticResource FirstSet}">
                     <ContentView.Style>
-                        <Style TargetType="ContentView">
+                        <Style 
+                            TargetType="ContentView">
                             <Style.Triggers>
                                 <DataTrigger 
                                     TargetType="ContentView"
@@ -497,7 +503,8 @@
                 <ContentView
                 Grid.Column="2">
                     <ContentView.Style>
-                        <Style TargetType="ContentView">
+                        <Style 
+                            TargetType="ContentView">
                             <Style.Triggers>
                                 <DataTrigger 
                                     TargetType="ContentView"

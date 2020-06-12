@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="TennisMatchApp.MainPage"
+             x:Name="MainPageName"
              Title="Your matches">
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -16,10 +17,17 @@
         <ListView
             x:Name="matches_list_view"
             HasUnevenRows="true"
-            SelectedItem="{Binding SelectedItem}">
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                                Text="Delete"
+                                IsDestructive="True"
+                                Command="{Binding BindingContext.Delete_Match_Clicked, Source={x:Reference Name=MainPageName}}"
+                                CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
                         <StackLayout
                             Margin="10,5">
                             <Grid>

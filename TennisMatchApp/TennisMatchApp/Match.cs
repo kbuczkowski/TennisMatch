@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace TennisMatchApp
 {
@@ -11,13 +12,13 @@ namespace TennisMatchApp
         Fourth,
         Fifth,
     }
-    public class Match
+    public class Match : INotifyPropertyChanged
     {
         public string p1_Name, p2_Name;
 
         #region settings
         public int setsToWin, gamesToWin, pointsToWinTieBreak;
-        public bool advantagePlay, firstPlayerToServe, matchEnded, advancedStats;
+        public bool advantagePlay, firstPlayerToServe, didFirstPlayerServedLastGame, matchEnded, advancedStats;
         public DateTime date;
         #endregion
 
@@ -46,6 +47,7 @@ namespace TennisMatchApp
             pointsToWinTieBreak = p_pointsToWinTieBreak;
             advantagePlay = p_advantagePlay;
             firstPlayerToServe = p_firstPlayerToServe;
+            didFirstPlayerServedLastGame = !p_firstPlayerToServe;
             advancedStats = p_advancedStats;
             p1_SetsWon = 0;
             p2_SetsWon = 0;
@@ -135,6 +137,13 @@ namespace TennisMatchApp
                 }
                 return s;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

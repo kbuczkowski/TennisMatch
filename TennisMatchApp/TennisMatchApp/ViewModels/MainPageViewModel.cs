@@ -10,10 +10,12 @@ namespace TennisMatchApp.ViewModels
         INavigation Navigation;
         Match _selectedItem;
         public Command New_Match_Clicked { get; set; }
-        public MainPageViewModel(INavigation p_navigation) 
+        public Command Delete_Match_Clicked { get; set; }
+        public MainPageViewModel(INavigation p_navigation)
         {
             Navigation = p_navigation;
             New_Match_Clicked = new Command(NewMatch);
+            Delete_Match_Clicked = new Command<Match>(DeleteMatch);
         }
         public Match SelectedItem
         {
@@ -41,9 +43,13 @@ namespace TennisMatchApp.ViewModels
         {
             Navigation.PushAsync(new MatchPage(m));
         }
-        void NewMatch(object m)
+        void NewMatch(object obj)
         {
             Navigation.PushAsync(new NewMatchPage());
+        }
+        void DeleteMatch(Match obj)
+        {
+            App.matches.Remove((Match)obj);
         }
     }
 }

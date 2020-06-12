@@ -237,6 +237,26 @@ namespace TennisMatchApp
                 OnPropertyChanged(nameof(MatchEnded));
             }
         }
+        public bool FirstPlayerToServe
+        {
+            get
+            {
+                return match.firstPlayerToServe;
+            }
+            set
+            {
+                match.firstPlayerToServe = value;
+                OnPropertyChanged(nameof(FirstPlayerToServe));
+                OnPropertyChanged(nameof(SecondPlayerToServe));
+            }
+        }
+        public bool SecondPlayerToServe
+        {
+            get
+            {
+                return !match.firstPlayerToServe;
+            }
+        }
         bool ButtonsEnable(object parameter)
         {
             return !MatchEnded;
@@ -282,6 +302,9 @@ namespace TennisMatchApp
             else
             {
                 P1_ActualScore = (match.p1_actualScore + 1).ToString();
+
+                if ((match.p1_actualScore + match.p2_actualScore) % 2 == 1)
+                    FirstPlayerToServe = !FirstPlayerToServe;
 
                 if(match.p1_actualScore >= match.pointsToWinTieBreak && match.p1_actualScore >= match.p2_actualScore + 2)
                 {
@@ -333,6 +356,9 @@ namespace TennisMatchApp
             {
                 P2_ActualScore = (match.p2_actualScore + 1).ToString();
 
+                if ((match.p1_actualScore + match.p2_actualScore) % 2 == 1)
+                    FirstPlayerToServe = !FirstPlayerToServe;
+
                 if (match.p2_actualScore >= match.pointsToWinTieBreak && match.p2_actualScore >= match.p1_actualScore + 2)
                 {
                     P2_Won_Game();
@@ -346,6 +372,8 @@ namespace TennisMatchApp
             match.p1_advantage = false;
             match.p2_advantage = false;
             match.tiebreakEnabled = false;
+            FirstPlayerToServe = match.didFirstPlayerServedLastGame;
+            match.didFirstPlayerServedLastGame = !match.didFirstPlayerServedLastGame;
 
             switch (ActualSet)
             {
@@ -385,6 +413,9 @@ namespace TennisMatchApp
             {
                 match.tiebreakEnabled = true;
             }
+
+            match.OnPropertyChanged(nameof(match.P1_Score));
+            match.OnPropertyChanged(nameof(match.P2_Score));
         }
         void P2_Won_Game()
         {
@@ -393,6 +424,8 @@ namespace TennisMatchApp
             match.p1_advantage = false;
             match.p2_advantage = false;
             match.tiebreakEnabled = false;
+            FirstPlayerToServe = match.didFirstPlayerServedLastGame;
+            match.didFirstPlayerServedLastGame = !match.didFirstPlayerServedLastGame;
 
             switch (ActualSet)
             {
@@ -432,6 +465,9 @@ namespace TennisMatchApp
             {
                 match.tiebreakEnabled = true;
             }
+
+            match.OnPropertyChanged(nameof(match.P1_Score));
+            match.OnPropertyChanged(nameof(match.P2_Score));
         }
     }
 }
