@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TennisMatchApp
 {
@@ -96,6 +95,44 @@ namespace TennisMatchApp
                 p2_BackhandWinners = 0;
                 p2_ForehandUnforcedErrors = 0;
                 p2_BackhandUnforcedErrors = 0;
+            }
+        }
+        public string P1_Name
+        {
+            get
+            {
+                return p1_Name;
+            }
+        }
+        public string P2_Name
+        {
+            get
+            {
+                return p2_Name;
+            }
+        }
+        public string P1_Score
+        {
+            get
+            {
+                string s = p1_GamesWon[0].ToString();
+                for(int i = 1; i <= (int) _actualSet; i++)
+                {
+                    s += (" " + p1_GamesWon[i].ToString());
+                }
+                return s;
+            }
+        }
+        public string P2_Score
+        {
+            get
+            {
+                string s = p2_GamesWon[0].ToString();
+                for (int i = 1; i <= (int)_actualSet; i++)
+                {
+                    s += (" " + p2_GamesWon[i].ToString());
+                }
+                return s;
             }
         }
     }

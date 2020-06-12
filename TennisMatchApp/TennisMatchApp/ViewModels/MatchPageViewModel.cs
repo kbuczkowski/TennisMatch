@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
+using TennisMatchApp.ViewModels;
 using Xamarin.Forms;
 
 namespace TennisMatchApp
 {
-    class MatchPageViewModel : INotifyPropertyChanged
+    class MatchPageViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         Match match;
         Page page;
-        public ICommand P1_Point_Clicked { get; set; }
-        public ICommand P2_Point_Clicked { get; set; }
+        public Command P1_Point_Clicked { get; set; }
+        public Command P2_Point_Clicked { get; set; }
 
         public MatchPageViewModel(Page p_page, Match p_match)
         {
@@ -21,13 +21,7 @@ namespace TennisMatchApp
             this.page = p_page;
 
             P1_Point_Clicked = new Command(P1_Point, ButtonsEnable);
-            
             P2_Point_Clicked = new Command(P2_Point, ButtonsEnable);
-        }
-
-        void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         public string P1_Name
         {
@@ -253,6 +247,8 @@ namespace TennisMatchApp
                     if(match.p1_SetsWon >= match.setsToWin)
                     {
                         MatchEnded = true;
+                        P1_Point_Clicked.ChangeCanExecute();
+                        P2_Point_Clicked.ChangeCanExecute();
                     }
                     else
                     {
@@ -269,7 +265,7 @@ namespace TennisMatchApp
                 P2_ActualScore = "30";
             else if (match.p2_actualScore == 30)
                 P2_ActualScore = "40";
-            else if (match.p2_actualScore == 40 && match.p1_actualScore < 40)
+            else if (match.p2_actualScore == 40 && match.p1_actualScore < 40) //game won
             {
                 P1_ActualScore = "0";
                 P2_ActualScore = "0";
@@ -294,9 +290,11 @@ namespace TennisMatchApp
                 }
                 if (match.p2_GamesWon[(int)ActualSet] >= 6 && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int) ActualSet] + 2){
                     match.p2_SetsWon++;
-                    if (match.p2_SetsWon >= match.setsToWin)
+                    if (match.p2_SetsWon >= match.setsToWin) //match won
                     {
                         MatchEnded = true;
+                        P1_Point_Clicked.ChangeCanExecute();
+                        P2_Point_Clicked.ChangeCanExecute();
                     }
                     else
                     {

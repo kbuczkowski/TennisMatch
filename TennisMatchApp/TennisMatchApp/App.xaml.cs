@@ -14,9 +14,7 @@ namespace TennisMatchApp
         {
             InitializeComponent();
 
-            //MainPage = new NavigationPage(new MainPage());
-            //do testow
-            MainPage = new NavigationPage(new MatchPage());
+            MainPage = new NavigationPage(new MainPage());
         }
         public App(string p_file_path)
         {

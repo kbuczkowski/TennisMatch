@@ -9,43 +9,49 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Text="+"
-            Clicked="Add_Match_Clicked"/>
+            Command="{Binding New_Match_Clicked}"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout>
         <ListView
-            x:Name="matches_list_view">
+            x:Name="matches_list_view"
+            HasUnevenRows="true"
+            SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20*"/>
-                                <ColumnDefinition Width="60*"/>
-                                <ColumnDefinition Width="20*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid
-                                Grid.Column="1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50*"/>
-                                    <RowDefinition Height="50*"/>
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    HorizontalTextAlignment="Start"
-                                    FontAttributes="Bold"
+                        <StackLayout
+                            Margin="10,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                    Width="*"/>
+                                    <ColumnDefinition
+                                    Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout
+                                Grid.Column="0">
+                                    <Label
+                                    FontSize="Medium"
                                     Text="{Binding P1_Name}"/>
-                                <Label
-                                    Grid.Row="0"
-                                    HorizontalTextAlignment="Center"
-                                    Text="vs"/>
-                                <Label
-                                    Grid.Row="0"
-                                    HorizontalTextAlignment="End"
-                                    FontAttributes="Bold"
+                                    <Label
+                                    FontSize="Medium"
                                     Text="{Binding P2_Name}"/>
+                                </StackLayout>
+
+                                <StackLayout
+                                Grid.Column="1"
+                                    HorizontalOptions="End">
+                                    <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P1_Score}"/>
+                                    <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P2_Score}"/>
+                                </StackLayout>
                             </Grid>
-                        </Grid>
+
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

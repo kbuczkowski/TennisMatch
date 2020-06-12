@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using TennisMatchApp.ViewModels;
 
 namespace TennisMatchApp
 {
@@ -14,12 +15,9 @@ namespace TennisMatchApp
     {
         public MainPage()
         {
+            BindingContext = new MainPageViewModel(Navigation);
             InitializeComponent();
             matches_list_view.ItemsSource = App.matches;
-        }
-        private void Add_Match_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new NewMatchPage());
         }
     }
 }
