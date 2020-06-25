@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
+             mc:Ignorable="d"
+             x:Class="TennisMatchApp.MainPage"
+             x:Name="MainPageName"
+             Style="{StaticResource PageStyle}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="+"
+            Command="{Binding New_Match_Clicked}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout
+        Padding="0, 10, 0, 0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*"/>
+                <ColumnDefinition
+                    Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource TitleText}"
+                HorizontalOptions="Center"
+                Text="YOUR MATCHES"/>
+
+            <Button
+                Grid.Column="1"
+                HorizontalOptions="End"
+                FontFamily="OpenSans-ExtraBold.ttf#Open Sans"
+                FontSize="Title"
+                Text="+"
+                TextColor="Gray"
+                Padding="0"
+                Margin="0,-5,10,0"
+                WidthRequest="30"
+                BackgroundColor="Transparent"
+                Command="{Binding New_Match_Clicked}"/>
+        </Grid>
+
+        <Label
+            FontSize="Large"
+            Text="{Binding X}"/>
+
+        <ListView
+            x:Name="matches_list_view"
+            HasUnevenRows="true"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                                Text="Delete"
+                                IsDestructive="True"
+                                Command="{Binding BindingContext.Delete_Match_Clicked, Source={x:Reference Name=MainPageName}}"
+                                CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
+
+                        <materialFrame:MaterialFrame
+                            Style="{StaticResource LightFrame}"
+                            Margin="10"
+                            Padding="10">
+
+                            <StackLayout>
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P1_Name}"/>
+                                        <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P2_Name}"/>
+                                    </StackLayout>
+
+                                    <StackLayout
+                                        Orientation="Horizontal"
+                                        HorizontalOptions="EndAndExpand">
+                                    <BoxView
+                                    WidthRequest="1"
+                                        HeightRequest="60"
+                                    BackgroundColor="GreenYellow"/>
+
+                                    <StackLayout>
+                                        <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P1_Score}"/>
+                                        <Label
+                                    FontSize="Medium"
+                                    Text="{Binding P2_Score}"/>
+                                    </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <BoxView
+                                    HeightRequest="1"
+                                    BackgroundColor="GreenYellow"/>
+
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Label
+                                HorizontalOptions="Start"
+                                    Opacity="0.7"
+                                FontSize="Small"
+                                Text="{Binding Match_Date}"/>
+
+                                    <Label
+                                HorizontalOptions="EndAndExpand"
+                                    Opacity="0.7"
+                                FontSize="Small"
+                                Text="{Binding Best_Of}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </materialFrame:MaterialFrame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

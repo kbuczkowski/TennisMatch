@@ -10,31 +10,39 @@ namespace TennisMatchApp
 {
     class MatchPageViewModel : BaseViewModel
     {
-        Match match;
-        Page page;
+        Match match, previousPoint;
         public Command P1_Point_Clicked { get; set; }
         public Command P2_Point_Clicked { get; set; }
-
-        public MatchPageViewModel(Page p_page, Match p_match)
+        public Command Restore_Point_Clicked { get; set; }
+        public Command Navigation_Back { get; set; }
+        public MatchPageViewModel(Match p_match)
         {
-            this.match = p_match;
-            this.page = p_page;
+            match = p_match;
 
             P1_Point_Clicked = new Command(P1_Point, ButtonsEnable);
             P2_Point_Clicked = new Command(P2_Point, ButtonsEnable);
+            Restore_Point_Clicked = new Command(Restore);
+            Navigation_Back = new Command(Nav_Back);
+        }
+        public string MatchName
+        {
+            get
+            {
+                return match.P1_Name + " vs " + match.P2_Name;
+            }
         }
         public string P1_Name
         {
             get
             {
-                return match.p1_Name;
+                return match.P1_Name;
             }
         }
         public string P2_Name
         {
             get
             {
-                return match.p2_Name;
+                return match.P2_Name;
             }
         }
         public string P1_FirstSet
@@ -161,25 +169,25 @@ namespace TennisMatchApp
         {
             get
             {
-                if (match.p1_actualScore == 40 && match.p2_actualScore == 40)
+                if (match.P1_ActualScore == 40 && match.P2_ActualScore == 40)
                 {
-                    if (match.p1_advantage)
+                    if (match.P1_advantage)
                         return "Ad";
-                    else if (!match.p1_advantage && !match.p2_advantage)
-                        return match.p1_actualScore.ToString();
+                    else if (!match.P1_advantage && !match.P2_advantage)
+                        return match.P1_ActualScore.ToString();
                     else
                         return String.Empty;
                 }
                 else
-                    return match.p1_actualScore.ToString();
+                    return match.P1_ActualScore.ToString();
             }
             set
             {
                 if (value != "Ad")
-                    match.p1_actualScore = Int32.Parse(value);
+                    match.P1_ActualScore = Int32.Parse(value);
                 else
                 {
-                    match.p1_advantage = true;
+                    match.P1_advantage = true;
                     OnPropertyChanged(nameof(P2_ActualScore));
                 }
                 OnPropertyChanged(nameof(P1_ActualScore));
@@ -189,39 +197,77 @@ namespace TennisMatchApp
         {
             get
             {
-                if (match.p2_actualScore == 40 && match.p1_actualScore == 40)
+                if (match.P2_ActualScore == 40 && match.P1_ActualScore == 40)
                 {
-                    if (match.p2_advantage)
+                    if (match.P2_advantage)
                         return "Ad";
-                    else if (!match.p2_advantage && !match.p1_advantage)
-                        return match.p2_actualScore.ToString();
+                    else if (!match.P2_advantage && !match.P1_advantage)
+                        return match.P2_ActualScore.ToString();
                     else
                         return String.Empty;
                 }
                 else
-                    return match.p2_actualScore.ToString();
+                    return match.P2_ActualScore.ToString();
             }
             set
             {
                 if (value != "Ad")
-                    match.p2_actualScore = Int32.Parse(value);
+                    match.P2_ActualScore = Int32.Parse(value);
                 else
                 {
-                    match.p2_advantage = true;
+                    match.P2_advantage = true;
                     OnPropertyChanged(nameof(P1_ActualScore));
                 }
                 OnPropertyChanged(nameof(P2_ActualScore));
             }
         }
-        public Set ActualSet
+        public string P1_PointsWon
         {
             get
             {
-                return match._actualSet;
+                return match.P1_PointsWon.ToString();
             }
             set
             {
-                match._actualSet = value;
+                match.P1_PointsWon = Int32.Parse(value);
+                OnPropertyChanged(nameof(P1_PointsWon));
+            }
+        }
+        public string P2_PointsWon
+        {
+            get
+            {
+                return match.P2_PointsWon.ToString();
+            }
+            set
+            {
+                match.P2_PointsWon = Int32.Parse(value);
+                OnPropertyChanged(nameof(P2_PointsWon));
+            }
+        }
+        public string P1_BreakPointsWon
+        {
+            get
+            {
+                return match.P1_BreakPointsWon.ToString() + "/" + match.P1_BreakPoints.ToString();
+            }
+        }
+        public string P2_BreakPointsWon
+        {
+            get
+            {
+                return match.P2_BreakPointsWon.ToString() + "/" + match.P2_BreakPoints.ToString();
+            }
+        }
+        public int ActualSet
+        {
+            get
+            {
+                return match.ActualSet;
+            }
+            set
+            {
+                match.ActualSet = value;
                 OnPropertyChanged(nameof(ActualSet));
             }
         }
@@ -229,11 +275,11 @@ namespace TennisMatchApp
         {
             get
             {
-                return match.matchEnded;
+                return match.MatchEnded;
             }
             set
             {
-                match.matchEnded = value;
+                match.MatchEnded = value;
                 OnPropertyChanged(nameof(MatchEnded));
             }
         }
@@ -241,11 +287,11 @@ namespace TennisMatchApp
         {
             get
             {
-                return match.firstPlayerToServe;
+                return match.FirstPlayerToServe;
             }
             set
             {
-                match.firstPlayerToServe = value;
+                match.FirstPlayerToServe = value;
                 OnPropertyChanged(nameof(FirstPlayerToServe));
                 OnPropertyChanged(nameof(SecondPlayerToServe));
             }
@@ -254,46 +300,60 @@ namespace TennisMatchApp
         {
             get
             {
-                return !match.firstPlayerToServe;
+                return !match.FirstPlayerToServe;
             }
         }
-        bool ButtonsEnable(object parameter)
+        bool ButtonsEnable(object obj)
         {
             return !MatchEnded;
         }
         void P1_Point(object obj)
         {
-            if (!match.tiebreakEnabled)
+            previousPoint = new Match(match);
+            P1_PointsWon = (match.P1_PointsWon + 1).ToString();
+
+            if (!match.TiebreakEnabled)
             {
-                if (match.p1_actualScore == 0)
+                if (match.P1_ActualScore == 0)
+                {
                     P1_ActualScore = "15";
-                else if (match.p1_actualScore == 15)
+                    SetBreakPoints();
+                }
+                else if (match.P1_ActualScore == 15)
+                {
                     P1_ActualScore = "30";
-                else if (match.p1_actualScore == 30)
+                    SetBreakPoints();
+                }
+                else if (match.P1_ActualScore == 30)
+                {
                     P1_ActualScore = "40";
-                else if (match.p1_actualScore == 40 && match.p2_actualScore < 40) // if game won
+                    SetBreakPoints();
+                }
+                else if (match.P1_ActualScore == 40 && match.P2_ActualScore < 40) // if game won
                 {
                     P1_Won_Game();
                 }
-                else if (match.p1_actualScore == 40 && match.p2_actualScore == 40)
+                else if (match.P1_ActualScore == 40 && match.P2_ActualScore == 40)
                 {
-                    if (!match.advantagePlay)
+                    if (!match.AdvantagePlay)
                         P1_Won_Game();
                     else
                     {
-                        if (match.p1_advantage)
+                        if (match.P1_advantage)
                             P1_Won_Game();
                         else
                         {
-                            if (match.p2_advantage)
+                            if (match.P2_advantage)
                             {
-                                match.p2_advantage = false;
+                                match.P2_advantage = false;
                                 OnPropertyChanged(nameof(P1_ActualScore));
                                 OnPropertyChanged(nameof(P2_ActualScore));
+                                SetBreakPoints();
                             }
                             else
                             {
                                 P1_ActualScore = "Ad";
+                                SetBreakPoints();
                             }
                         }
                     }
@@ -301,12 +361,12 @@ namespace TennisMatchApp
             }
             else
             {
-                P1_ActualScore = (match.p1_actualScore + 1).ToString();
+                P1_ActualScore = (match.P1_ActualScore + 1).ToString();
 
-                if ((match.p1_actualScore + match.p2_actualScore) % 2 == 1)
+                if ((match.P1_ActualScore + match.P2_ActualScore) % 2 == 1)
                     FirstPlayerToServe = !FirstPlayerToServe;
 
-                if(match.p1_actualScore >= match.pointsToWinTieBreak && match.p1_actualScore >= match.p2_actualScore + 2)
+                if (match.P1_ActualScore >= match.PointsToWinTieBreak && match.P1_ActualScore >= match.P2_ActualScore + 2)
                 {
                     P1_Won_Game();
                 }
@@ -314,38 +374,52 @@ namespace TennisMatchApp
         }
         void P2_Point(object obj)
         {
-            if (!match.tiebreakEnabled)
+            previousPoint = new Match(match);
+            P2_PointsWon = (match.P2_PointsWon + 1).ToString();
+
+            if (!match.TiebreakEnabled)
             {
-                if (match.p2_actualScore == 0)
+                if (match.P2_ActualScore == 0)
+                {
                     P2_ActualScore = "15";
-                else if (match.p2_actualScore == 15)
+                    SetBreakPoints();
+                }
+                else if (match.P2_ActualScore == 15)
+                {
                     P2_ActualScore = "30";
-                else if (match.p2_actualScore == 30)
+                    SetBreakPoints();
+                }
+                else if (match.P2_ActualScore == 30)
+                {
                     P2_ActualScore = "40";
-                else if (match.p2_actualScore == 40 && match.p1_actualScore < 40) // if game won
+                    SetBreakPoints();
+                }
+                else if (match.P2_ActualScore == 40 && match.P1_ActualScore < 40) // if game won
                 {
                     P2_Won_Game();
                 }
-                else if (match.p2_actualScore == 40 && match.p1_actualScore == 40)
+                else if (match.P2_ActualScore == 40 && match.P1_ActualScore == 40)
                 {
-                    if (!match.advantagePlay)
+                    if (!match.AdvantagePlay)
                         P2_Won_Game();
                     else
                     {
                         {
-                            if (match.p2_advantage)
+                            if (match.P2_advantage)
                                 P2_Won_Game();
                             else
                             {
-                                if (match.p1_advantage)
+                                if (match.P1_advantage)
                                 {
-                                    match.p1_advantage = false;
+                                    match.P1_advantage = false;
                                     OnPropertyChanged(nameof(P2_ActualScore));
                                     OnPropertyChanged(nameof(P1_ActualScore));
+                                    SetBreakPoints();
                                 }
                                 else
                                 {
                                     P2_ActualScore = "Ad";
+                                    SetBreakPoints();
                                 }
                             }
                         }
@@ -354,12 +428,12 @@ namespace TennisMatchApp
             }
             else
             {
-                P2_ActualScore = (match.p2_actualScore + 1).ToString();
+                P2_ActualScore = (match.P2_ActualScore + 1).ToString();
 
-                if ((match.p1_actualScore + match.p2_actualScore) % 2 == 1)
+                if ((match.P1_ActualScore + match.P2_ActualScore) % 2 == 1)
                     FirstPlayerToServe = !FirstPlayerToServe;
 
-                if (match.p2_actualScore >= match.pointsToWinTieBreak && match.p2_actualScore >= match.p1_actualScore + 2)
+                if (match.P2_ActualScore >= match.PointsToWinTieBreak && match.P2_ActualScore >= match.P1_ActualScore + 2)
                 {
                     P2_Won_Game();
                 }
@@ -367,13 +441,19 @@ namespace TennisMatchApp
         }
         void P1_Won_Game()
         {
+            if (!match.FirstPlayerToServe)
+            {
+                match.P1_BreakPointsWon++;
+                OnPropertyChanged(nameof(P1_BreakPointsWon));
+            }
+
             P1_ActualScore = "0";
             P2_ActualScore = "0";
-            match.p1_advantage = false;
-            match.p2_advantage = false;
-            match.tiebreakEnabled = false;
-            FirstPlayerToServe = match.didFirstPlayerServedLastGame;
-            match.didFirstPlayerServedLastGame = !match.didFirstPlayerServedLastGame;
+            match.P1_advantage = false;
+            match.P2_advantage = false;
+            match.TiebreakEnabled = false;
+            FirstPlayerToServe = match.DidFirstPlayerServeLastGame;
+            match.DidFirstPlayerServeLastGame = !match.DidFirstPlayerServeLastGame;
 
             switch (ActualSet)
             {
@@ -394,10 +474,10 @@ namespace TennisMatchApp
                     break;
             }
 
-            if ((match.p1_GamesWon[(int)ActualSet] >= match.gamesToWin && match.p1_GamesWon[(int)ActualSet] >= match.p2_GamesWon[(int)ActualSet] + 2) || (match.p1_GamesWon[(int)ActualSet] > match.gamesToWin && match.p2_GamesWon[(int)ActualSet] == match.gamesToWin)) // if set won
+            if ((match.p1_GamesWon[(int)ActualSet] >= match.GamesToWin && match.p1_GamesWon[(int)ActualSet] >= match.p2_GamesWon[(int)ActualSet] + 2) || (match.p1_GamesWon[(int)ActualSet] > match.GamesToWin && match.p2_GamesWon[(int)ActualSet] == match.GamesToWin)) // if set won
             {
-                match.p1_SetsWon++;
-                if (match.p1_SetsWon >= match.setsToWin) // if match won
+                match.P1_SetsWon++;
+                if (match.P1_SetsWon >= match.SetsToWin) // if match won
                 {
                     MatchEnded = true;
                     P1_Point_Clicked.ChangeCanExecute();
@@ -409,47 +489,50 @@ namespace TennisMatchApp
                 }
             }
 
-            if(match.p1_GamesWon[(int)ActualSet] == match.gamesToWin && match.p2_GamesWon[(int)ActualSet] == match.gamesToWin)
+            if (match.p1_GamesWon[(int)ActualSet] == match.GamesToWin && match.p2_GamesWon[(int)ActualSet] == match.GamesToWin)
             {
-                match.tiebreakEnabled = true;
+                match.TiebreakEnabled = true;
             }
-
-            match.OnPropertyChanged(nameof(match.P1_Score));
-            match.OnPropertyChanged(nameof(match.P2_Score));
         }
         void P2_Won_Game()
         {
+            if (match.FirstPlayerToServe)
+            {
+                match.P2_BreakPointsWon++;
+                OnPropertyChanged(nameof(P2_BreakPointsWon));
+            }
+
             P1_ActualScore = "0";
             P2_ActualScore = "0";
-            match.p1_advantage = false;
-            match.p2_advantage = false;
-            match.tiebreakEnabled = false;
-            FirstPlayerToServe = match.didFirstPlayerServedLastGame;
-            match.didFirstPlayerServedLastGame = !match.didFirstPlayerServedLastGame;
+            match.P1_advantage = false;
+            match.P2_advantage = false;
+            match.TiebreakEnabled = false;
+            FirstPlayerToServe = match.DidFirstPlayerServeLastGame;
+            match.DidFirstPlayerServeLastGame = !match.DidFirstPlayerServeLastGame;
 
             switch (ActualSet)
             {
-                case Set.First:
-                    P2_FirstSet = (match.p2_GamesWon[0] + 1).ToString();
+                case 1:
+                    P2_FirstSet = (match.P2_FirstSet + 1).ToString();
                     break;
-                case Set.Second:
-                    P2_SecondSet = (match.p2_GamesWon[1] + 1).ToString();
+                case 2:
+                    P2_SecondSet = (match.P2_SecondSet + 1).ToString();
                     break;
-                case Set.Third:
-                    P2_ThirdSet = (match.p2_GamesWon[2] + 1).ToString();
+                case 3:
+                    P2_ThirdSet = (match.P2_ThirdSet + 1).ToString();
                     break;
-                case Set.Fourth:
-                    P2_FourthSet = (match.p2_GamesWon[3] + 1).ToString();
+                case 4:
+                    P2_FourthSet = (match.P2_FourthSet + 1).ToString();
                     break;
-                case Set.Fifth:
-                    P2_FifthSet = (match.p2_GamesWon[4] + 1).ToString();
+                case 5:
+                    P2_FifthSet = (match.P2_FifthSet + 1).ToString();
                     break;
             }
 
-            if ((match.p2_GamesWon[(int)ActualSet] >= match.gamesToWin && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int)ActualSet] + 2) || (match.p2_GamesWon[(int)ActualSet] > match.gamesToWin && match.p1_GamesWon[(int)ActualSet] == match.gamesToWin)) // if set won
+            if ((match.p2_GamesWon[(int)ActualSet] >= match.GamesToWin && match.p2_GamesWon[(int)ActualSet] >= match.p1_GamesWon[(int)ActualSet] + 2) || (match.p2_GamesWon[(int)ActualSet] > match.GamesToWin && match.p1_GamesWon[(int)ActualSet] == match.GamesToWin)) // if set won
             {
-                match.p2_SetsWon++;
-                if (match.p2_SetsWon >= match.setsToWin) // if match won
+                match.P2_SetsWon++;
+                if (match.P2_SetsWon >= match.SetsToWin) // if match won
                 {
                     MatchEnded = true;
                     P1_Point_Clicked.ChangeCanExecute();
@@ -461,13 +544,55 @@ namespace TennisMatchApp
                 }
             }
 
-            if(match.p2_GamesWon[(int)ActualSet] == match.gamesToWin && match.p1_GamesWon[(int)ActualSet] == match.gamesToWin)
+            if (match.P2_GamesWon[(int)ActualSet] == match.GamesToWin && match.P1_GamesWon[(int)ActualSet] == match.GamesToWin)
             {
-                match.tiebreakEnabled = true;
+                match.TiebreakEnabled = true;
             }
+        }
+        void SetBreakPoints()
+        {
+            if (((match.P1_ActualScore == 40 && match.P2_ActualScore < 40) || P1_ActualScore == "Ad") && !match.FirstPlayerToServe)
+            {
+                match.P1_BreakPoints++;
+                OnPropertyChanged(nameof(P1_BreakPointsWon));
+            }
+            if (((match.P2_ActualScore == 40 && match.P1_ActualScore < 40) || P2_ActualScore == "Ad") && match.FirstPlayerToServe)
+            {
+                match.P2_BreakPoints++;
+                OnPropertyChanged(nameof(P2_BreakPointsWon));
+            }
+        }
+        void Restore(object obj)
+        {
+            if (previousPoint != null)
+            {
+                match = previousPoint;
 
-            match.OnPropertyChanged(nameof(match.P1_Score));
-            match.OnPropertyChanged(nameof(match.P2_Score));
+                OnPropertyChanged(nameof(P1_ActualScore));
+                OnPropertyChanged(nameof(P1_FirstSet));
+                OnPropertyChanged(nameof(P1_SecondSet));
+                OnPropertyChanged(nameof(P1_ThirdSet));
+                OnPropertyChanged(nameof(P1_FourthSet));
+                OnPropertyChanged(nameof(P1_FifthSet));
+
+                OnPropertyChanged(nameof(P2_ActualScore));
+                OnPropertyChanged(nameof(P2_FirstSet));
+                OnPropertyChanged(nameof(P2_SecondSet));
+                OnPropertyChanged(nameof(P2_ThirdSet));
+                OnPropertyChanged(nameof(P2_FourthSet));
+                OnPropertyChanged(nameof(P2_FifthSet));
+
+                OnPropertyChanged(nameof(P1_PointsWon));
+                OnPropertyChanged(nameof(P1_BreakPointsWon));
+                OnPropertyChanged(nameof(P2_PointsWon));
+                OnPropertyChanged(nameof(P2_BreakPointsWon));
+
+                OnPropertyChanged(nameof(ActualSet));
+            }
+        }
+        void Nav_Back(object obj)
+        {
+            App.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

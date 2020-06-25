@@ -15,7 +15,7 @@ namespace TennisMatchApp
     {
         public MainPage()
         {
-            BindingContext = new MainPageViewModel(Navigation);
+            BindingContext = new MainPageViewModel();
             InitializeComponent();
             matches_list_view.ItemsSource = App.matches;
         }

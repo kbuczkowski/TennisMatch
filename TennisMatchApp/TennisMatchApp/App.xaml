@@ -3,9 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
              mc:Ignorable="d"
              x:Class="TennisMatchApp.App">
     <Application.Resources>
+        <Style
+            x:Key="LightFrame"
+            TargetType="materialFrame:MaterialFrame">
+            <Setter Property="MaterialTheme" Value="Light"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Elevation" Value="6"/>
+        </Style>
 
+        <Style
+            x:Key="PageStyle"
+            TargetType="ContentPage">
+            <Setter Property="NavigationPage.HasNavigationBar" Value="False"/>
+            <Setter Property="BackgroundColor" Value="#EAEAEA"/>
+        </Style>
+
+        <Style
+            x:Key="TitleText"
+            TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans-ExtraBold.ttf#Open Sans"/>
+            <Setter Property="FontSize" Value="Title"/>
+            <Setter Property="TextColor" Value="Gray"/>
+        </Style>
+
+        <Style
+            x:Key="SubTitleText"
+            TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans"/>
+            <Setter Property="FontSize" Value="Large"/>
+            <Setter Property="TextColor" Value="Gray"/>
+        </Style>
+
+        <Style
+            x:Key="StatsText"
+            TargetType="Label">
+            <Setter Property="FontSize" Value="Large"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
     </Application.Resources>
 </Application>

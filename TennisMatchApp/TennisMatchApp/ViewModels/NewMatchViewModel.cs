@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using TennisMatchApp.ViewModels;
 using Xamarin.Forms;
+using SQLite;
 
 namespace TennisMatchApp
 {
@@ -14,8 +15,6 @@ namespace TennisMatchApp
         private bool _firstPlayerToServe = true, _advantagePlay = true, _advancedStats = false;
         private string _p1_Name, _p2_Name;
 
-        INavigation Navigation;
-        Page page;
         public Command Sets_Plus_Clicked { get; set; }
         public Command Sets_Minus_Clicked { get; set; }
         public Command Games_Plus_Clicked { get; set; }
@@ -25,12 +24,9 @@ namespace TennisMatchApp
         public Command P1_To_Serve_Clicked { get; set; }
         public Command P2_To_Serve_Clicked { get; set; }
         public Command Create_Match_Clicked { get; set; }
-
-        public NewMatchViewModel(INavigation p_Navigation, Page p_page)
+        public Command Navigation_Back { get; set; }
+        public NewMatchViewModel()
         {
-            this.Navigation = p_Navigation;
-            this.page = p_page;
-
             Sets_Plus_Clicked = new Command(Sets_Plus);
             Sets_Minus_Clicked = new Command(Sets_Minus);
             Games_Plus_Clicked = new Command(Games_Plus);
@@ -40,6 +36,7 @@ namespace TennisMatchApp
             P1_To_Serve_Clicked = new Command(P1_To_Serve);
             P2_To_Serve_Clicked = new Command(P2_To_Serve);
             Create_Match_Clicked = new Command(Create_Match, Can_Create_Match);
+            Navigation_Back = new Command(Nav_Back);
         }
         public string P1_Name
         {
@@ -77,7 +74,6 @@ namespace TennisMatchApp
                 OnPropertyChanged(nameof(SetsToWin));
             }
         }
-
         public string GamesToWin
         {
             get
@@ -126,6 +122,18 @@ namespace TennisMatchApp
                 OnPropertyChanged(nameof(AdvancedStats));
             }
         }
+        public bool FirstPlayerToServe
+        {
+            get
+            {
+                return _firstPlayerToServe;
+            }
+            set
+            {
+                _firstPlayerToServe = value;
+                OnPropertyChanged(nameof(FirstPlayerToServe));
+            }
+        }
         void Sets_Plus(object obj)
         {
             if (_setsToWin < 3)
@@ -170,22 +178,36 @@ namespace TennisMatchApp
         }
         void P1_To_Serve(object obj)
         {
-            _firstPlayerToServe = true;
+            FirstPlayerToServe = true;
         }
         void P2_To_Serve(object obj)
         {
-            _firstPlayerToServe = false;
+            FirstPlayerToServe = false;
         }
         void Create_Match(object obj)
         {
             var m = new Match(_p1_Name, _p2_Name, _setsToWin, _gamesToWin, _pointsToWinTieBreak, _advantagePlay, _firstPlayerToServe, _advancedStats);
-            App.matches.Add(m);
-            Navigation.PopAsync();
-            Navigation.PushAsync(new MatchPage(m));
+
+            using (SQLite.SQLiteConnection conn = new SQLiteConnection(App.file_path))
+            {
+                conn.CreateTable<Match>();
+                var rows = conn.Insert(m);
+                if (rows > 0)
+                    App.Current.MainPage.DisplayAlert("SUccess", "fsf", "fsdfs");
+                else
+                    App.Current.MainPage.DisplayAlert("FAILED", "fsf", "fsdfs");
+            }
+
+            App.Current.MainPage.Navigation.PopAsync();
+            App.Current.MainPage.Navigation.PushAsync(new MatchPage(m));
         }
         bool Can_Create_Match(object obj)
         {
             return (!String.IsNullOrEmpty(P1_Name) && !String.IsNullOrEmpty(P2_Name));
+        }
+        void Nav_Back(object obj)
+        {
+            App.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

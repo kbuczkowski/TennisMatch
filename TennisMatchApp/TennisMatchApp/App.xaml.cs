@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Sharpnado.MaterialFrame;
+using SQLite;
 
 namespace TennisMatchApp
 {
     public partial class App : Application
     {
-        public string file_path = string.Empty;
-        public static ObservableCollection<Match> matches = new ObservableCollection<Match>();
+        public static string file_path = string.Empty;
+        public static List<Match> matches = new List<Match>();
         public App()
         {
             InitializeComponent();

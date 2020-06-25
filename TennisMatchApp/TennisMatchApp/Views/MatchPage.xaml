@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TennisMatchApp.MatchPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:TennisMatchApp"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding Restore_Point_Clicked}" Text="R" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="FirstSet">
+            <Grid BindingContext="{TemplateBinding BindingContext}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SecondSet">
+            <Grid BindingContext="{TemplateBinding BindingContext}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ThirdSet">
+            <Grid BindingContext="{TemplateBinding BindingContext}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="FourthSet">
+            <Grid BindingContext="{TemplateBinding BindingContext}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FourthSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FourthSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="FifthSet">
+            <Grid BindingContext="{TemplateBinding BindingContext}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FirstSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_SecondSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_ThirdSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FourthSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FourthSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Column="4">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P1_FifthSet}"
+                            TextColor="White" />
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="DarkBlue"
+                        CornerRadius="5">
+                        <Label
+                            FontSize="Large"
+                            Text="{Binding P2_FifthSet}"
+                            TextColor="White" />
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ImageButton
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    Command="{Binding Navigation_Back}"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    Source="backButton" />
+
+                <Label
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TitleText}"
+                    Text="MATCH" />
+            </Grid>
+
+            <Grid
+                x:Name="mainGrid"
+                Padding="15"
+                HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0">
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="LightBlue"
+                        CornerRadius="5">
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Style="{StaticResource SubTitleText}"
+                                Text="{Binding P1_Name}"
+                                TextColor="Black" />
+                            <Frame
+                                Padding="4"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="50"
+                                HasShadow="False"
+                                HorizontalOptions="EndAndExpand"
+                                IsVisible="{Binding FirstPlayerToServe}" />
+                        </StackLayout>
+                    </Frame>
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="LightBlue"
+                        CornerRadius="5">
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Style="{StaticResource SubTitleText}"
+                                Text="{Binding P2_Name}"
+                                TextColor="Black" />
+                            <Frame
+                                Padding="4"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="50"
+                                HasShadow="False"
+                                HorizontalOptions="EndAndExpand"
+                                IsVisible="{Binding SecondPlayerToServe}" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <ContentView Grid.Column="1" ControlTemplate="{StaticResource FirstSet}">
+                    <ContentView.Style>
+                        <Style TargetType="ContentView">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding ActualSet}"
+                                    TargetType="ContentView"
+                                    Value="{x:Static my:Set.Second}">
+                                    <Setter Property="ControlTemplate" Value="{StaticResource SecondSet}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding ActualSet}"
+                                    TargetType="ContentView"
+                                    Value="{x:Static my:Set.Third}">
+                                    <Setter Property="ControlTemplate" Value="{StaticResource ThirdSet}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding ActualSet}"
+                                    TargetType="ContentView"
+                                    Value="{x:Static my:Set.Fourth}">
+                                    <Setter Property="ControlTemplate" Value="{StaticResource FourthSet}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding ActualSet}"
+                                    TargetType="ContentView"
+                                    Value="{x:Static my:Set.Fifth}">
+                                    <Setter Property="ControlTemplate" Value="{StaticResource FifthSet}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentView.Style>
+                </ContentView>
+
+                <ContentView Grid.Column="2">
+                    <ContentView.Style>
+                        <Style TargetType="ContentView">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding MatchEnded}"
+                                    TargetType="ContentView"
+                                    Value="true">
+                                    <Setter Property="IsVisible" Value="false" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentView.Style>
+                    <StackLayout>
+                        <Frame
+                            Padding="5"
+                            BackgroundColor="LightSkyBlue"
+                            CornerRadius="5">
+                            <Label
+                                FontSize="Large"
+                                Text="{Binding P1_ActualScore}"
+                                TextColor="Black" />
+                        </Frame>
+                        <Frame
+                            Padding="5"
+                            BackgroundColor="LightSkyBlue"
+                            CornerRadius="5">
+                            <Label
+                                FontSize="Large"
+                                Text="{Binding P2_ActualScore}"
+                                TextColor="Black" />
+                        </Frame>
+                    </StackLayout>
+                </ContentView>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding MatchEnded}"
+                                TargetType="Grid"
+                                Value="true">
+                                <Setter Property="IsVisible" Value="false" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <materialFrame:MaterialFrame Grid.Column="0" Style="{StaticResource LightFrame}">
+                    <StackLayout>
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P1_Name}" />
+                        <Button
+                            Padding="0"
+                            Command="{Binding P1_Point_Clicked}"
+                            CornerRadius="10"
+                            Text="Point" />
+                    </StackLayout>
+                </materialFrame:MaterialFrame>
+
+                <materialFrame:MaterialFrame Grid.Column="1" Style="{StaticResource LightFrame}">
+                    <StackLayout>
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P2_Name}" />
+                        <Button
+                            Padding="0"
+                            Command="{Binding P2_Point_Clicked}"
+                            CornerRadius="10"
+                            Text="Point" />
+                    </StackLayout>
+                </materialFrame:MaterialFrame>
+            </Grid>
+
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource TitleText}"
+                Text="STATISTICS" />
+
+            <materialFrame:MaterialFrame Style="{StaticResource LightFrame}">
+                <ScrollView>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource SubTitleText}"
+                                Text="{Binding P1_Name}" />
+                            <Label
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Style="{StaticResource SubTitleText}"
+                                Text="{Binding P2_Name}" />
+                        </Grid>
+
+                        <Frame
+                            Grid.Row="1"
+                            Margin="0,10"
+                            Padding="10,5"
+                            BackgroundColor="LightBlue"
+                            CornerRadius="10"
+                            HorizontalOptions="Fill">
+                            <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_PointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="End"
+                                    Text="{Binding P2_PointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            Grid.Row="1"
+                            Margin="5"
+                            Padding="10"
+                            BackgroundColor="GreenYellow"
+                            CornerRadius="5"
+                            HasShadow="True"
+                            HorizontalOptions="Center">
+                            <Label Style="{StaticResource StatsText}" Text="POINTS WON" />
+                        </Frame>
+
+                        <Frame
+                            Grid.Row="2"
+                            Margin="0,10"
+                            Padding="10,5"
+                            BackgroundColor="LightBlue"
+                            CornerRadius="10"
+                            HorizontalOptions="Fill">
+                            <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_BreakPointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="End"
+                                    Text="{Binding P2_BreakPointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            Grid.Row="2"
+                            Margin="5"
+                            Padding="10"
+                            BackgroundColor="GreenYellow"
+                            CornerRadius="5"
+                            HasShadow="True"
+                            HorizontalOptions="Center">
+                            <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
+                        </Frame>
+                    </Grid>
+                </ScrollView>
+            </materialFrame:MaterialFrame>
+
+            <Grid
+                Margin="-10,10,-10,-10"
+                VerticalOptions="EndAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" HorizontalOptions="End" Text="Pause" />
+                <Button Grid.Column="1" HorizontalOptions="Start" Text="Undo" Command="{Binding Restore_Point_Clicked}"/>
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>                                  
