@@ -12,9 +12,9 @@ namespace TennisMatchApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MatchPage : ContentPage
     {
-        public MatchPage(Match m)
+        public MatchPage()
         {
-            BindingContext = new MatchPageViewModel(m);
+            BindingContext = new MatchPageViewModel();
             InitializeComponent();
         }
     }

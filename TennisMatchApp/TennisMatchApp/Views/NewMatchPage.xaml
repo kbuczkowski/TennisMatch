@@ -41,7 +41,7 @@
             <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <StackLayout
                         Grid.Column="0">
@@ -58,7 +58,9 @@
                     <StackLayout
                         Grid.Column="1">
                         <Button
-                            CornerRadius="20"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            CornerRadius="30"
                             Command="{Binding P1_To_Serve_Clicked}">
                             <Button.Style>
                                 <Style
@@ -69,7 +71,7 @@
                                             Binding="{Binding FirstPlayerToServe}"
                                             Value="true">
                                             <Setter Property="BackgroundColor" Value="GreenYellow"/>
-                                            <Setter Property="Text" Value="SERVE"/>
+                                            <Setter Property="Text" Value=""/>
                                         </DataTrigger>
                                         <DataTrigger
                                             TargetType="Button"
@@ -84,7 +86,9 @@
                         </Button>
                         
                         <Button
-                            CornerRadius="20"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            CornerRadius="30"
                             Command="{Binding P2_To_Serve_Clicked}">
                             <Button.Style>
                                 <Style
@@ -95,7 +99,7 @@
                                             Binding="{Binding FirstPlayerToServe}"
                                             Value="false">
                                             <Setter Property="BackgroundColor" Value="GreenYellow"/>
-                                            <Setter Property="Text" Value="SERVE"/>
+                                            <Setter Property="Text" Value=""/>
                                         </DataTrigger>
                                         <DataTrigger
                                             TargetType="Button"
@@ -196,7 +200,7 @@
                         Grid.Column="0"
                         HorizontalOptions="Start"
                         FontSize="Large"
-                        Text="Points to win tiebreak:"/>
+                        Text="To win tiebreak:"/>
                     <Button
                         Grid.Row="2"
                         Grid.Column="1"

@@ -7,6 +7,7 @@
     xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:my="clr-namespace:TennisMatchApp"
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <ContentPage.ToolbarItems>
@@ -455,25 +456,25 @@
                                 <DataTrigger
                                     Binding="{Binding ActualSet}"
                                     TargetType="ContentView"
-                                    Value="{x:Static my:Set.Second}">
+                                    Value="1">
                                     <Setter Property="ControlTemplate" Value="{StaticResource SecondSet}" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding ActualSet}"
                                     TargetType="ContentView"
-                                    Value="{x:Static my:Set.Third}">
+                                    Value="2">
                                     <Setter Property="ControlTemplate" Value="{StaticResource ThirdSet}" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding ActualSet}"
                                     TargetType="ContentView"
-                                    Value="{x:Static my:Set.Fourth}">
+                                    Value="3">
                                     <Setter Property="ControlTemplate" Value="{StaticResource FourthSet}" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding ActualSet}"
                                     TargetType="ContentView"
-                                    Value="{x:Static my:Set.Fifth}">
+                                    Value="4">
                                     <Setter Property="ControlTemplate" Value="{StaticResource FifthSet}" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -543,6 +544,7 @@
                             Text="{Binding P1_Name}" />
                         <Button
                             Padding="0"
+                            BackgroundColor="LightBlue"
                             Command="{Binding P1_Point_Clicked}"
                             CornerRadius="10"
                             Text="Point" />
@@ -557,6 +559,7 @@
                             Text="{Binding P2_Name}" />
                         <Button
                             Padding="0"
+                            BackgroundColor="LightBlue"
                             Command="{Binding P2_Point_Clicked}"
                             CornerRadius="10"
                             Text="Point" />
@@ -569,116 +572,248 @@
                 Style="{StaticResource TitleText}"
                 Text="STATISTICS" />
 
-            <materialFrame:MaterialFrame Style="{StaticResource LightFrame}">
-                <ScrollView>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
+            <materialFrame:MaterialFrame Style="{StaticResource LightFrame}"
+                                         VerticalOptions="Fill">
+                <StackLayout>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                HorizontalOptions="Start"
-                                Style="{StaticResource SubTitleText}"
-                                Text="{Binding P1_Name}" />
-                            <Label
-                                Grid.Column="1"
-                                HorizontalOptions="End"
-                                Style="{StaticResource SubTitleText}"
-                                Text="{Binding P2_Name}" />
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            HorizontalOptions="Start"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P1_Name}" />
+                        <Label
+                            HorizontalOptions="EndAndExpand"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P2_Name}" />
+                    </StackLayout>
+
+                    <ScrollView>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <Frame
+                                Grid.Row="0"
+                                Margin="0,10"
+                                Padding="10,5"
+                                BackgroundColor="LightBlue"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+                                <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding P1_PointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="End"
+                                        Text="{Binding P2_PointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="5"
+                                HasShadow="True"
+                                HorizontalOptions="Center">
+                                <Label Style="{StaticResource StatsText}" Text="POINTS WON" />
+                            </Frame>
+
+                            <Frame
+                                Grid.Row="1"
+                                Margin="0,10"
+                                Padding="10,5"
+                                BackgroundColor="LightBlue"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+                                <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding P1_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="End"
+                                        Text="{Binding P2_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="1"
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="5"
+                                HasShadow="True"
+                                HorizontalOptions="Center">
+                                <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
+                            </Frame>
+
+                            <Frame
+                                Grid.Row="2"
+                                Margin="0,10"
+                                Padding="10,5"
+                                BackgroundColor="LightBlue"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+                                <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding P1_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="End"
+                                        Text="{Binding P2_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="2"
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="5"
+                                HasShadow="True"
+                                HorizontalOptions="Center">
+                                <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
+                            </Frame>
+
+                            <Frame
+                                Grid.Row="3"
+                                Margin="0,10"
+                                Padding="10,5"
+                                BackgroundColor="LightBlue"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+                                <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding P1_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="End"
+                                        Text="{Binding P2_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="3"
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="5"
+                                HasShadow="True"
+                                HorizontalOptions="Center">
+                                <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
+                            </Frame>
+
+                            <Frame
+                                Grid.Row="4"
+                                Margin="0,10"
+                                Padding="10,5"
+                                BackgroundColor="LightBlue"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+                                <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding P1_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="End"
+                                        Text="{Binding P2_BreakPointsWon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="4"
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="GreenYellow"
+                                CornerRadius="5"
+                                HasShadow="True"
+                                HorizontalOptions="Center">
+                                <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
+                            </Frame>
                         </Grid>
-
-                        <Frame
-                            Grid.Row="1"
-                            Margin="0,10"
-                            Padding="10,5"
-                            BackgroundColor="LightBlue"
-                            CornerRadius="10"
-                            HorizontalOptions="Fill">
-                            <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                                <Label
-                                    FontSize="Medium"
-                                    HorizontalOptions="StartAndExpand"
-                                    Text="{Binding P1_PointsWon}"
-                                    TextColor="Black"
-                                    VerticalOptions="Center" />
-                                <Label
-                                    FontSize="Medium"
-                                    HorizontalOptions="End"
-                                    Text="{Binding P2_PointsWon}"
-                                    TextColor="Black"
-                                    VerticalOptions="Center" />
-                            </StackLayout>
-                        </Frame>
-                        <Frame
-                            Grid.Row="1"
-                            Margin="5"
-                            Padding="10"
-                            BackgroundColor="GreenYellow"
-                            CornerRadius="5"
-                            HasShadow="True"
-                            HorizontalOptions="Center">
-                            <Label Style="{StaticResource StatsText}" Text="POINTS WON" />
-                        </Frame>
-
-                        <Frame
-                            Grid.Row="2"
-                            Margin="0,10"
-                            Padding="10,5"
-                            BackgroundColor="LightBlue"
-                            CornerRadius="10"
-                            HorizontalOptions="Fill">
-                            <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                                <Label
-                                    FontSize="Medium"
-                                    HorizontalOptions="StartAndExpand"
-                                    Text="{Binding P1_BreakPointsWon}"
-                                    TextColor="Black"
-                                    VerticalOptions="Center" />
-                                <Label
-                                    FontSize="Medium"
-                                    HorizontalOptions="End"
-                                    Text="{Binding P2_BreakPointsWon}"
-                                    TextColor="Black"
-                                    VerticalOptions="Center" />
-                            </StackLayout>
-                        </Frame>
-                        <Frame
-                            Grid.Row="2"
-                            Margin="5"
-                            Padding="10"
-                            BackgroundColor="GreenYellow"
-                            CornerRadius="5"
-                            HasShadow="True"
-                            HorizontalOptions="Center">
-                            <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
-                        </Frame>
-                    </Grid>
-                </ScrollView>
+                    </ScrollView>
+                </StackLayout>
             </materialFrame:MaterialFrame>
 
-            <Grid
+            <sh:Shadows
                 Margin="-10,10,-10,-10"
+                Padding="0"
+                CornerRadius="0"
+                HeightRequest="50"
                 VerticalOptions="EndAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <sh:Shadows.Shades>
+                    <sh:ImmutableShades>
+                        <sh:Shade
+                            BlurRadius="10"
+                            Opacity="0.5"
+                            Offset="0, -5"
+                            Color="#5F5F5F" />
+                    </sh:ImmutableShades>
+                </sh:Shadows.Shades>
 
-                <Button Grid.Column="0" HorizontalOptions="End" Text="Pause" />
-                <Button Grid.Column="1" HorizontalOptions="Start" Text="Undo" Command="{Binding Restore_Point_Clicked}"/>
+                <materialFrame:MaterialFrame
+                    Margin="0"
+                    Padding="0"
+                    CornerRadius="0"
+                    HasShadow="False"
+                    Style="{StaticResource LightFrame}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            </Grid>
+                        <Button
+                            Grid.Column="0"
+                            BackgroundColor="#F9F9F9"
+                            HorizontalOptions="End"
+                            Text="Pause" />
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="#F9F9F9"
+                            Command="{Binding Restore_Point_Clicked}"
+                            HorizontalOptions="Start"
+                            Text="Undo" />
+
+                    </Grid>
+                </materialFrame:MaterialFrame>
+            </sh:Shadows>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>                                  

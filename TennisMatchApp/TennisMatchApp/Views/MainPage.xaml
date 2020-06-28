@@ -1,58 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
-             mc:Ignorable="d"
-             x:Class="TennisMatchApp.MainPage"
-             x:Name="MainPageName"
-             Style="{StaticResource PageStyle}">
-    
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="+"
-            Command="{Binding New_Match_Clicked}"/>
-    </ContentPage.ToolbarItems>
+<ContentPage
+    x:Class="TennisMatchApp.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="MainPageName"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
 
-    <StackLayout
-        Padding="0, 10, 0, 0">
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding Refresh}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+
+    <StackLayout Padding="0,10,0,0">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="*"/>
-                <ColumnDefinition
-                    Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Style="{StaticResource TitleText}"
                 HorizontalOptions="Center"
-                Text="YOUR MATCHES"/>
+                Style="{StaticResource TitleText}"
+                Text="YOUR MATCHES" />
 
             <Button
                 Grid.Column="1"
-                HorizontalOptions="End"
+                Margin="0,-5,10,0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                Command="{Binding New_Match_Clicked}"
                 FontFamily="OpenSans-ExtraBold.ttf#Open Sans"
                 FontSize="Title"
+                HorizontalOptions="End"
                 Text="+"
                 TextColor="Gray"
-                Padding="0"
-                Margin="0,-5,10,0"
-                WidthRequest="30"
-                BackgroundColor="Transparent"
-                Command="{Binding New_Match_Clicked}"/>
+                WidthRequest="30" />
         </Grid>
-
-        <Label
-            FontSize="Large"
-            Text="{Binding X}"/>
 
         <ListView
             x:Name="matches_list_view"
             HasUnevenRows="true"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            ItemsSource="{Binding Matches}"
+            RefreshCommand="{Binding Refresh}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             SeparatorVisibility="None">
             <ListView.ItemTemplate>
@@ -60,65 +59,51 @@
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem
-                                Text="Delete"
-                                IsDestructive="True"
                                 Command="{Binding BindingContext.Delete_Match_Clicked, Source={x:Reference Name=MainPageName}}"
-                                CommandParameter="{Binding .}"/>
+                                CommandParameter="{Binding .}"
+                                IsDestructive="True"
+                                Text="Delete" />
                         </ViewCell.ContextActions>
 
                         <materialFrame:MaterialFrame
-                            Style="{StaticResource LightFrame}"
                             Margin="10"
-                            Padding="10">
+                            Padding="10"
+                            Style="{StaticResource LightFrame}">
 
                             <StackLayout>
-                                <StackLayout
-                                    Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
                                     <StackLayout>
-                                        <Label
-                                    FontSize="Medium"
-                                    Text="{Binding P1_Name}"/>
-                                        <Label
-                                    FontSize="Medium"
-                                    Text="{Binding P2_Name}"/>
+                                        <Label FontSize="Medium" Text="{Binding P1_Name}" />
+                                        <Label FontSize="Medium" Text="{Binding P2_Name}" />
                                     </StackLayout>
 
-                                    <StackLayout
-                                        Orientation="Horizontal"
-                                        HorizontalOptions="EndAndExpand">
-                                    <BoxView
-                                    WidthRequest="1"
-                                        HeightRequest="60"
-                                    BackgroundColor="GreenYellow"/>
+                                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                                        <BoxView
+                                            BackgroundColor="GreenYellow"
+                                            HeightRequest="60"
+                                            WidthRequest="1" />
 
-                                    <StackLayout>
-                                        <Label
-                                    FontSize="Medium"
-                                    Text="{Binding P1_Score}"/>
-                                        <Label
-                                    FontSize="Medium"
-                                    Text="{Binding P2_Score}"/>
-                                    </StackLayout>
+                                        <StackLayout>
+                                            <Label FontSize="Medium" Text="{Binding P1_Score}" />
+                                            <Label FontSize="Medium" Text="{Binding P2_Score}" />
+                                        </StackLayout>
                                     </StackLayout>
                                 </StackLayout>
 
-                                <BoxView
-                                    HeightRequest="1"
-                                    BackgroundColor="GreenYellow"/>
+                                <BoxView BackgroundColor="GreenYellow" HeightRequest="1" />
 
-                                <StackLayout
-                                    Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
                                     <Label
-                                HorizontalOptions="Start"
-                                    Opacity="0.7"
-                                FontSize="Small"
-                                Text="{Binding Match_Date}"/>
+                                        FontSize="Small"
+                                        HorizontalOptions="Start"
+                                        Opacity="0.7"
+                                        Text="{Binding MatchDate}" />
 
                                     <Label
-                                HorizontalOptions="EndAndExpand"
-                                    Opacity="0.7"
-                                FontSize="Small"
-                                Text="{Binding Best_Of}"/>
+                                        FontSize="Small"
+                                        HorizontalOptions="EndAndExpand"
+                                        Opacity="0.7"
+                                        Text="{Binding BestOf}" />
                                 </StackLayout>
                             </StackLayout>
                         </materialFrame:MaterialFrame>

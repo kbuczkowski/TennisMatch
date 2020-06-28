@@ -12,7 +12,7 @@
             TargetType="materialFrame:MaterialFrame">
             <Setter Property="MaterialTheme" Value="Light"/>
             <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="10"/>
             <Setter Property="Elevation" Value="6"/>
         </Style>
 

@@ -192,14 +192,13 @@ namespace TennisMatchApp
             {
                 conn.CreateTable<Match>();
                 var rows = conn.Insert(m);
-                if (rows > 0)
-                    App.Current.MainPage.DisplayAlert("SUccess", "fsf", "fsdfs");
-                else
-                    App.Current.MainPage.DisplayAlert("FAILED", "fsf", "fsdfs");
+                if (rows <= 0)
+                    App.Current.MainPage.DisplayAlert("FAILED", "Something went wrong :(", "OK");
             }
 
+            App.currentMatch = m;
             App.Current.MainPage.Navigation.PopAsync();
-            App.Current.MainPage.Navigation.PushAsync(new MatchPage(m));
+            App.Current.MainPage.Navigation.PushAsync(new MatchPage());
         }
         bool Can_Create_Match(object obj)
         {

@@ -11,7 +11,7 @@ namespace TennisMatchApp
     public partial class App : Application
     {
         public static string file_path = string.Empty;
-        public static List<Match> matches = new List<Match>();
+        public static Match currentMatch;
         public App()
         {
             InitializeComponent();

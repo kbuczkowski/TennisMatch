@@ -8,16 +8,17 @@ namespace TennisMatchApp.ViewModels
 {
     class MainPageViewModel : BaseViewModel
     {
+        bool _isRefreshing;
         Match _selectedItem;
         List<Match> _matches;
         public Command New_Match_Clicked { get; set; }
         public Command Delete_Match_Clicked { get; set; }
+        public Command Refresh { get; set; }
         public MainPageViewModel()
         {
             New_Match_Clicked = new Command(NewMatch);
             Delete_Match_Clicked = new Command<Match>(DeleteMatch);
-            //_matches.Add(new Match("ETtdg", "gdfg", 3, 6, 7, true, true, true));//nie dziala sqlite / dodac jakis mecz zobaczyc jak bedzie
-            RefreshMatches();
+            Refresh = new Command(RefreshMatches);
         }
         public Match SelectedItem
         {
@@ -38,7 +39,15 @@ namespace TennisMatchApp.ViewModels
 
                 OnPropertyChanged(nameof(SelectedItem));
 
-                OpenMatch(m);
+                App.currentMatch = m;
+                try
+                {
+                    App.Current.MainPage.Navigation.PushAsync(new MatchPage());
+                }
+                catch
+                {
+                    App.Current.MainPage.DisplayAlert("FAILED", "That match looks not compatible :(", "OK");
+                }
             }
         }
         public List<Match> Matches
@@ -48,14 +57,14 @@ namespace TennisMatchApp.ViewModels
                 return _matches;
             }
         }
-        public string X
+        public bool IsRefreshing
         {
-            get;
-            set;
-        }
-        void OpenMatch(Match m)
-        {
-            App.Current.MainPage.Navigation.PushAsync(new MatchPage(m));
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
         }
         void NewMatch(object obj)
         {
@@ -64,21 +73,28 @@ namespace TennisMatchApp.ViewModels
         async void DeleteMatch(Match obj)
         {
             bool decision = await App.Current.MainPage.DisplayAlert("Delete this match?", "This cannot be undone.", "Yes", "No");
-            if (decision)
-                App.matches.Remove((Match)obj);
+            if (decision) {
+                using (var conn = new SQLite.SQLiteConnection(App.file_path))
+                {
+                    conn.Delete((Match)obj);
+
+                    RefreshMatches();
+                }
+            }
         }
         void RefreshMatches()
         {
+            IsRefreshing = true;
+
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.file_path))
             {
                 conn.CreateTable<Match>();
 
                 _matches = conn.Table<Match>().ToList();
                 OnPropertyChanged(nameof(Matches));
-
-                X = Matches[3].P1_Name;
-                OnPropertyChanged(nameof(X));
             }
+
+            IsRefreshing = false;
         }
     }
 }
