@@ -5,6 +5,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Sharpnado.MaterialFrame;
 using SQLite;
+using TennisMatchApp.Views;
+using TennisMatchApp.Models;
 
 namespace TennisMatchApp
 {
@@ -25,6 +27,8 @@ namespace TennisMatchApp
             file_path = p_file_path;
 
             MainPage = new NavigationPage(new MainPage());
+
+            ((NavigationPage)Current.MainPage).BarBackgroundColor = Color.FromHex("#007AFF");
         }
 
         protected override void OnStart()

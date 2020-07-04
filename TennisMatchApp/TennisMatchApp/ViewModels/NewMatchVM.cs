@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Windows.Input;
-using TennisMatchApp.ViewModels;
 using Xamarin.Forms;
 using SQLite;
+using TennisMatchApp.Views;
+using TennisMatchApp.Models;
 
-namespace TennisMatchApp
+namespace TennisMatchApp.ViewModels
 {
-    class NewMatchViewModel : BaseViewModel
+    class NewMatchVM : BaseVM
     {
         private int _setsToWin = 2, _gamesToWin = 6, _pointsToWinTieBreak = 7;
         private bool _firstPlayerToServe = true, _advantagePlay = true, _advancedStats = false;
@@ -25,8 +22,11 @@ namespace TennisMatchApp
         public Command P2_To_Serve_Clicked { get; set; }
         public Command Create_Match_Clicked { get; set; }
         public Command Navigation_Back { get; set; }
-        public NewMatchViewModel()
+        public NewMatchVM()
         {
+            _p1_Name = "P1";
+            _p2_Name = "P2";
+
             Sets_Plus_Clicked = new Command(Sets_Plus);
             Sets_Minus_Clicked = new Command(Sets_Minus);
             Games_Plus_Clicked = new Command(Games_Plus);
@@ -198,7 +198,11 @@ namespace TennisMatchApp
 
             App.currentMatch = m;
             App.Current.MainPage.Navigation.PopAsync();
-            App.Current.MainPage.Navigation.PushAsync(new MatchPage());
+
+            if(m.AdvancedStats)
+                App.Current.MainPage.Navigation.PushAsync(new AdvancedMatchPageTabbed());
+            else
+                App.Current.MainPage.Navigation.PushAsync(new BasicMatchPage());
         }
         bool Can_Create_Match(object obj)
         {

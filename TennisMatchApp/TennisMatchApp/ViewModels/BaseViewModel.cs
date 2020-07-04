@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TennisMatchApp.ViewModels
 {
-    class BaseViewModel : INotifyPropertyChanged
+    class BaseVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)

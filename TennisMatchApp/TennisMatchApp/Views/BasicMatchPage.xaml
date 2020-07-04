@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TennisMatchApp.Views.BasicMatchPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:TennisMatchApp.ViewModels"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <vm:MatchPageVM />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding Pause_Clicked}" IconImageSource="pause_icon" />
+        <ToolbarItem Command="{Binding Play_Clicked}" IconImageSource="play_icon" />
+        <ToolbarItem Command="{Binding Restore_Point_Clicked}" IconImageSource="reverse_icon" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource TitleText}"
+                Text="{Binding MatchTime}" />
+
+            <materialFrame:MaterialFrame
+                Padding="0"
+                HorizontalOptions="Center"
+                Style="{StaticResource LightFrame}">
+                <Grid Padding="15" HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Frame
+                            Padding="5"
+                            BackgroundColor="#007AFF"
+                            CornerRadius="5">
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    Style="{StaticResource SubTitleText}"
+                                    Text="{Binding P1_Name}"
+                                    TextColor="#FFFFFF" />
+                                <Frame
+                                    Padding="4"
+                                    BackgroundColor="GreenYellow"
+                                    CornerRadius="50"
+                                    HasShadow="False"
+                                    HorizontalOptions="EndAndExpand">
+
+                                    <Frame.Style>
+                                        <Style TargetType="Frame">
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding FirstPlayerToServe}"
+                                                    TargetType="Frame"
+                                                    Value="True">
+                                                    <Setter Property="BackgroundColor" Value="GreenYellow" />
+                                                </DataTrigger>
+
+                                                <DataTrigger
+                                                    Binding="{Binding FirstPlayerToServe}"
+                                                    TargetType="Frame"
+                                                    Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Frame.Style>
+                                </Frame>
+
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            Padding="5"
+                            BackgroundColor="#007AFF"
+                            CornerRadius="5">
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    Style="{StaticResource SubTitleText}"
+                                    Text="{Binding P2_Name}"
+                                    TextColor="#FFFFFF" />
+                                <Frame
+                                    Padding="4"
+                                    BackgroundColor="GreenYellow"
+                                    CornerRadius="50"
+                                    HasShadow="False"
+                                    HorizontalOptions="EndAndExpand">
+
+                                    <Frame.Style>
+                                        <Style TargetType="Frame">
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding SecondPlayerToServe}"
+                                                    TargetType="Frame"
+                                                    Value="True">
+                                                    <Setter Property="BackgroundColor" Value="GreenYellow" />
+                                                </DataTrigger>
+
+                                                <DataTrigger
+                                                    Binding="{Binding SecondPlayerToServe}"
+                                                    TargetType="Frame"
+                                                    Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Frame.Style>
+                                </Frame>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <ContentView Grid.Column="1" ControlTemplate="{StaticResource FirstSet}">
+                        <ContentView.Style>
+                            <Style TargetType="ContentView">
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding ActualSet}"
+                                        TargetType="ContentView"
+                                        Value="1">
+                                        <Setter Property="ControlTemplate" Value="{StaticResource SecondSet}" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding ActualSet}"
+                                        TargetType="ContentView"
+                                        Value="2">
+                                        <Setter Property="ControlTemplate" Value="{StaticResource ThirdSet}" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding ActualSet}"
+                                        TargetType="ContentView"
+                                        Value="3">
+                                        <Setter Property="ControlTemplate" Value="{StaticResource FourthSet}" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding ActualSet}"
+                                        TargetType="ContentView"
+                                        Value="4">
+                                        <Setter Property="ControlTemplate" Value="{StaticResource FifthSet}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentView.Style>
+                    </ContentView>
+
+                    <ContentView Grid.Column="2">
+                        <ContentView.Style>
+                            <Style TargetType="ContentView">
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding MatchEnded}"
+                                        TargetType="ContentView"
+                                        Value="true">
+                                        <Setter Property="IsVisible" Value="false" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentView.Style>
+                        
+                        <StackLayout>
+                            <Frame
+                                Padding="5"
+                                BackgroundColor="#FFFFFF"
+                                BorderColor="#007AFF"
+                                CornerRadius="5">
+                                <Label
+                                    FontSize="Large"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding P1_ActualScore}"
+                                    TextColor="#007AFF" />
+                            </Frame>
+                            <Frame
+                                Padding="5"
+                                BackgroundColor="#FFFFFF"
+                                BorderColor="#007AFF"
+                                CornerRadius="5"
+                                WidthRequest="30">
+                                <Label
+                                    FontSize="Large"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding P2_ActualScore}"
+                                    TextColor="#007AFF" />
+                            </Frame>
+                        </StackLayout>
+                    </ContentView>
+                </Grid>
+            </materialFrame:MaterialFrame>
+
+            <Grid
+                Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding MatchEnded}"
+                                TargetType="Grid"
+                                Value="true">
+                                <Setter Property="IsVisible" Value="false" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <materialFrame:MaterialFrame Grid.Column="0" Style="{StaticResource LightFrame}">
+                    <StackLayout>
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P1_Name}" />
+                        <Button
+                            Padding="0"
+                            Command="{Binding P1_Point_Clicked}"
+                            Style="{StaticResource GrayButton}"
+                            Text="Point" />
+                    </StackLayout>
+                </materialFrame:MaterialFrame>
+
+                <materialFrame:MaterialFrame Grid.Column="1" Style="{StaticResource LightFrame}">
+                    <StackLayout>
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource SubTitleText}"
+                            Text="{Binding P2_Name}" />
+                        <Button
+                            Padding="0"
+                            Command="{Binding P2_Point_Clicked}"
+                            Style="{StaticResource GrayButton}"
+                            Text="Point" />
+                    </StackLayout>
+                </materialFrame:MaterialFrame>
+            </Grid>
+
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource TitleText}"
+                Text="STATISTICS" />
+
+            <materialFrame:MaterialFrame Style="{StaticResource LightFrame}">
+
+                <StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding P1_PointsWon}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource StatsText}"
+                            Text="POINTS WON" />
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding P2_PointsWon}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <ProgressBar Margin="0,0,0,10" Progress="{Binding PointsWon}" />
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding P1_BreakPoints}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource StatsText}"
+                            Text="BREAK POINTS" />
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding P2_BreakPoints}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPoints}" />
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding P1_BreakPointsWon}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource StatsText}"
+                            Text="BREAK POINTS WON" />
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding P2_BreakPointsWon}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPointsWon}" />
+
+                </StackLayout>
+
+            </materialFrame:MaterialFrame>
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

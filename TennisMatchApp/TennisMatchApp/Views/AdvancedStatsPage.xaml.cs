@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TennisMatchApp
+namespace TennisMatchApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MatchPage : ContentPage
+    public partial class AdvancedStatsPage : ContentPage
     {
-        public MatchPage()
+        public AdvancedStatsPage()
         {
-            BindingContext = new MatchPageViewModel();
             InitializeComponent();
         }
     }

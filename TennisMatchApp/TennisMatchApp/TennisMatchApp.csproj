@@ -21,10 +21,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\MatchPage.xaml">
+    <Compile Update="Views\AdvancedMatchPageTabbed.xaml.cs">
+      <DependentUpon>AdvancedMatchPageTabbed.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AdvancedMatchPage.xaml.cs">
+      <DependentUpon>AdvancedMatchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AdvancedStatsPage.xaml.cs">
+      <DependentUpon>AdvancedStatsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\AdvancedMatchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AdvancedMatchPageTabbed.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\BasicMatchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewMatchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AdvancedStatsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

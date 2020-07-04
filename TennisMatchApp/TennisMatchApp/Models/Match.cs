@@ -4,7 +4,7 @@ using System.ComponentModel;
 using SQLite;
 using Newtonsoft.Json;
 
-namespace TennisMatchApp
+namespace TennisMatchApp.Models
 {
     public class Match
     {
@@ -17,6 +17,7 @@ namespace TennisMatchApp
         public int SetsToWin { get; set; }
         public int GamesToWin { get; set; }
         public int PointsToWinTieBreak { get; set; }
+        public int TimeElapsed { get; set; }
         public bool AdvantagePlay { get; set; }
         public bool FirstPlayerToServe { get; set; }
         public bool DidFirstPlayerServeLastGame { get; set; }
@@ -106,11 +107,14 @@ namespace TennisMatchApp
             }
         }
         [Ignore]
-        public string BestOf
+        public string MatchTime
         {
             get
             {
-                return "Best of " + (SetsToWin * 2 - 1).ToString();
+                int h = TimeElapsed / 3600;
+                int m = (TimeElapsed - (h * 3600)) / 60;
+                int s = (TimeElapsed - (h * 3600) - (m * 60));
+                return h.ToString() + ":" + m.ToString("00") + ":" + s.ToString("00");
             }
         }
         [Ignore]
@@ -166,6 +170,8 @@ namespace TennisMatchApp
                 _p1_GamesWon_Temp.Add(0);
                 _p2_GamesWon_Temp.Add(0);
             }
+
+            TimeElapsed = 0;
 
             P1_GamesWon = _p1_GamesWon_Temp;
             P2_GamesWon = _p2_GamesWon_Temp;
@@ -229,6 +235,8 @@ namespace TennisMatchApp
             P2_Advantage = p_match.P2_Advantage;
 
             TiebreakEnabled = p_match.TiebreakEnabled;
+
+            TimeElapsed = p_match.TimeElapsed;
 
             P1_GamesWon = p_match.P1_GamesWon;
             P2_GamesWon = p_match.P2_GamesWon;

@@ -4,31 +4,46 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 using TennisMatchApp.ViewModels;
+using TennisMatchApp.Models;
 using Xamarin.Forms;
 
-namespace TennisMatchApp
+namespace TennisMatchApp.ViewModels
 {
-    class MatchPageViewModel : BaseViewModel
+    class MatchPageVM : BaseVM
     {
         Match match, previousPoint;
+        bool _isPlaying = false;
         public Command P1_Point_Clicked { get; set; }
         public Command P2_Point_Clicked { get; set; }
         public Command Restore_Point_Clicked { get; set; }
-        public Command Navigation_Back { get; set; }
-        public MatchPageViewModel()
+        public Command Pause_Clicked { get; set; }
+        public Command Play_Clicked { get; set; }
+        public MatchPageVM()
         {
             match = App.currentMatch;
+            Device.StartTimer(TimeSpan.FromSeconds(1.0), Tick);
 
-            P1_Point_Clicked = new Command(P1_Point, ButtonsEnable);
-            P2_Point_Clicked = new Command(P2_Point, ButtonsEnable);
+            P1_Point_Clicked = new Command(P1_Point_Click, ButtonsEnable);
+            P2_Point_Clicked = new Command(P2_Point_Click, ButtonsEnable);
+            Pause_Clicked = new Command(Pause);
+            Play_Clicked = new Command(Play);
             Restore_Point_Clicked = new Command(Restore);
-            Navigation_Back = new Command(Nav_Back);
         }
         public string MatchName
         {
             get
             {
                 return match.P1_Name + " vs " + match.P2_Name;
+            }
+        }
+        public string MatchTime
+        {
+            get
+            {
+                int h = match.TimeElapsed / 3600;
+                int m = (match.TimeElapsed - (h * 3600)) / 60;
+                int s = (match.TimeElapsed - (h * 3600) - (m * 60));
+                return "TIME: " + h.ToString() + ":" + m.ToString("00") + ":" + s.ToString("00");
             }
         }
         public string P1_Name
@@ -241,6 +256,8 @@ namespace TennisMatchApp
                 OnPropertyChanged(nameof(P2_ActualScore));
             }
         }
+
+        #region stats
         public string P1_PointsWon
         {
             get
@@ -251,6 +268,7 @@ namespace TennisMatchApp
             {
                 match.P1_PointsWon = Int32.Parse(value);
                 OnPropertyChanged(nameof(P1_PointsWon));
+                OnPropertyChanged(nameof(PointsWon));
             }
         }
         public string P2_PointsWon
@@ -263,22 +281,65 @@ namespace TennisMatchApp
             {
                 match.P2_PointsWon = Int32.Parse(value);
                 OnPropertyChanged(nameof(P2_PointsWon));
+                OnPropertyChanged(nameof(PointsWon));
+            }
+        }
+        public double PointsWon
+        {
+            get
+            {
+                if (match.P1_PointsWon != 0 || match.P2_PointsWon != 0)
+                    return (double)match.P1_PointsWon / (double)(match.P1_PointsWon + match.P2_PointsWon);
+                return 0.5;
+            }
+        }
+        public string P1_BreakPoints
+        {
+            get
+            {
+                return match.P1_BreakPoints.ToString();
+            }
+        }
+        public string P2_BreakPoints
+        {
+            get
+            {
+                return match.P2_BreakPoints.ToString();
+            }
+        }
+        public double BreakPoints
+        {
+            get
+            {
+                if (match.P1_BreakPoints != 0 || match.P2_BreakPoints != 0)
+                    return (double)match.P1_BreakPoints / (double)(match.P1_BreakPoints + match.P2_BreakPoints);
+                return 0.5;
             }
         }
         public string P1_BreakPointsWon
         {
             get
             {
-                return match.P1_BreakPointsWon.ToString() + "/" + match.P1_BreakPoints.ToString();
+                return match.P1_BreakPointsWon.ToString();
             }
         }
         public string P2_BreakPointsWon
         {
             get
             {
-                return match.P2_BreakPointsWon.ToString() + "/" + match.P2_BreakPoints.ToString();
+                return match.P2_BreakPointsWon.ToString();
             }
         }
+        public double BreakPointsWon
+        {
+            get
+            {
+                if (match.P1_BreakPointsWon != 0 || match.P2_BreakPointsWon != 0)
+                    return (double)match.P1_BreakPointsWon / (double)(match.P1_BreakPointsWon + match.P2_BreakPointsWon);
+                return 0.5;
+            }
+        }
+        #endregion
         public int ActualSet
         {
             get
@@ -289,6 +350,13 @@ namespace TennisMatchApp
             {
                 match.ActualSet = value;
                 OnPropertyChanged(nameof(ActualSet));
+            }
+        }
+        public bool AdvancedStats
+        {
+            get
+            {
+                return match.AdvancedStats;
             }
         }
         public bool MatchEnded
@@ -307,7 +375,9 @@ namespace TennisMatchApp
         {
             get
             {
-                return match.FirstPlayerToServe;
+                if (!MatchEnded)
+                    return match.FirstPlayerToServe;
+                return false;
             }
             set
             {
@@ -320,14 +390,104 @@ namespace TennisMatchApp
         {
             get
             {
-                return !match.FirstPlayerToServe;
+                if (!MatchEnded)
+                    return !match.FirstPlayerToServe;
+                return false;
             }
+        }
+        public bool IsPlaying
+        {
+            get
+            {
+                return _isPlaying;
+            }
+            set
+            {
+                _isPlaying = value;
+                OnPropertyChanged(nameof(IsPlaying));
+            }
+        }
+        public bool IsPaused
+        {
+            get
+            {
+                if (!MatchEnded && !IsPlaying)
+                    return true;
+                return false;
+            }
+        }
+        void P1_Point_Click(object obj)
+        {
+            P1_Point();
+        }
+        void P2_Point_Click(object obj)
+        {
+            P2_Point();
         }
         bool ButtonsEnable(object obj)
         {
-            return !MatchEnded;
+            return IsPlaying;
         }
-        void P1_Point(object obj)
+        void Restore(object obj)
+        {
+            if (previousPoint != null || previousPoint == match)
+            {
+                match = previousPoint;
+
+                using (var conn = new SQLite.SQLiteConnection(App.file_path))
+                {
+                    conn.Update(match);
+                }
+
+                OnPropertyChanged(nameof(FirstPlayerToServe));
+                OnPropertyChanged(nameof(SecondPlayerToServe));
+                OnPropertyChanged(nameof(P1_ActualScore));
+                OnPropertyChanged(nameof(P1_FirstSet));
+                OnPropertyChanged(nameof(P1_SecondSet));
+                OnPropertyChanged(nameof(P1_ThirdSet));
+                OnPropertyChanged(nameof(P1_FourthSet));
+                OnPropertyChanged(nameof(P1_FifthSet));
+
+                OnPropertyChanged(nameof(P2_ActualScore));
+                OnPropertyChanged(nameof(P2_FirstSet));
+                OnPropertyChanged(nameof(P2_SecondSet));
+                OnPropertyChanged(nameof(P2_ThirdSet));
+                OnPropertyChanged(nameof(P2_FourthSet));
+                OnPropertyChanged(nameof(P2_FifthSet));
+
+                OnPropertyChanged(nameof(P1_PointsWon));
+                OnPropertyChanged(nameof(P1_BreakPointsWon));
+                OnPropertyChanged(nameof(P2_PointsWon));
+                OnPropertyChanged(nameof(P2_BreakPointsWon));
+                OnPropertyChanged(nameof(PointsWon));
+                OnPropertyChanged(nameof(BreakPoints));
+                OnPropertyChanged(nameof(BreakPointsWon));
+
+                OnPropertyChanged(nameof(ActualSet));
+
+                OnPropertyChanged(nameof(MatchTime));
+            }
+        }
+        void Pause(object obj)
+        {
+            _isPlaying = false;
+
+            OnPropertyChanged(nameof(IsPaused));
+            P1_Point_Clicked.ChangeCanExecute();
+            P2_Point_Clicked.ChangeCanExecute();
+        }
+        void Play(object obj)
+        {
+            if (!MatchEnded)
+            {
+                _isPlaying = true;
+
+                OnPropertyChanged(nameof(IsPaused));
+                P1_Point_Clicked.ChangeCanExecute();
+                P2_Point_Clicked.ChangeCanExecute();
+            }
+        }
+        void P1_Point()
         {
             previousPoint = new Match(match);
             P1_PointsWon = (match.P1_PointsWon + 1).ToString();
@@ -397,7 +557,7 @@ namespace TennisMatchApp
                 conn.Update(match);
             }
         }
-        void P2_Point(object obj)
+        void P2_Point()
         {
             previousPoint = new Match(match);
             P2_PointsWon = (match.P2_PointsWon + 1).ToString();
@@ -510,6 +670,11 @@ namespace TennisMatchApp
                 if (match.P1_SetsWon >= match.SetsToWin) // if match won
                 {
                     MatchEnded = true;
+                    _isPlaying = false;
+
+                    OnPropertyChanged(nameof(FirstPlayerToServe));
+                    OnPropertyChanged(nameof(SecondPlayerToServe));
+
                     P1_Point_Clicked.ChangeCanExecute();
                     P2_Point_Clicked.ChangeCanExecute();
                 }
@@ -565,6 +730,11 @@ namespace TennisMatchApp
                 if (match.P2_SetsWon >= match.SetsToWin) // if match won
                 {
                     MatchEnded = true;
+                    IsPlaying = false;
+
+                    OnPropertyChanged(nameof(FirstPlayerToServe));
+                    OnPropertyChanged(nameof(SecondPlayerToServe));
+
                     P1_Point_Clicked.ChangeCanExecute();
                     P2_Point_Clicked.ChangeCanExecute();
                 }
@@ -581,55 +751,25 @@ namespace TennisMatchApp
         }
         void SetBreakPoints()
         {
-            if (((match.P1_ActualScore == 40 && match.P2_ActualScore < 40) || P1_ActualScore == "Ad") && !match.FirstPlayerToServe)
+            if ((((match.P1_ActualScore == 40 && match.P2_ActualScore < 40) || P1_ActualScore == "Ad") && !match.FirstPlayerToServe) || (match.P1_ActualScore == 40 && match.P2_ActualScore == 40 && !match.FirstPlayerToServe && !match.AdvantagePlay))
             {
                 match.P1_BreakPoints++;
                 OnPropertyChanged(nameof(P1_BreakPointsWon));
             }
-            if (((match.P2_ActualScore == 40 && match.P1_ActualScore < 40) || P2_ActualScore == "Ad") && match.FirstPlayerToServe)
+            if ((((match.P2_ActualScore == 40 && match.P1_ActualScore < 40) || P2_ActualScore == "Ad") && match.FirstPlayerToServe) || (match.P1_ActualScore == 40 && match.P2_ActualScore == 40 && match.FirstPlayerToServe && !match.AdvantagePlay))
             {
                 match.P2_BreakPoints++;
                 OnPropertyChanged(nameof(P2_BreakPointsWon));
             }
         }
-        void Restore(object obj)
+        bool Tick()
         {
-            if (previousPoint != null || previousPoint == match)
+            if (IsPlaying)
             {
-                match = previousPoint;
-
-                using (var conn = new SQLite.SQLiteConnection(App.file_path))
-                {
-                    conn.Update(match);
-                }
-
-                OnPropertyChanged(nameof(FirstPlayerToServe));
-                OnPropertyChanged(nameof(SecondPlayerToServe));
-                OnPropertyChanged(nameof(P1_ActualScore));
-                OnPropertyChanged(nameof(P1_FirstSet));
-                OnPropertyChanged(nameof(P1_SecondSet));
-                OnPropertyChanged(nameof(P1_ThirdSet));
-                OnPropertyChanged(nameof(P1_FourthSet));
-                OnPropertyChanged(nameof(P1_FifthSet));
-
-                OnPropertyChanged(nameof(P2_ActualScore));
-                OnPropertyChanged(nameof(P2_FirstSet));
-                OnPropertyChanged(nameof(P2_SecondSet));
-                OnPropertyChanged(nameof(P2_ThirdSet));
-                OnPropertyChanged(nameof(P2_FourthSet));
-                OnPropertyChanged(nameof(P2_FifthSet));
-
-                OnPropertyChanged(nameof(P1_PointsWon));
-                OnPropertyChanged(nameof(P1_BreakPointsWon));
-                OnPropertyChanged(nameof(P2_PointsWon));
-                OnPropertyChanged(nameof(P2_BreakPointsWon));
-
-                OnPropertyChanged(nameof(ActualSet));
+                match.TimeElapsed++;
+                OnPropertyChanged(nameof(MatchTime));
             }
-        }
-        void Nav_Back(object obj)
-        {
-            App.Current.MainPage.Navigation.PopAsync();
+            return true;
         }
     }
 }

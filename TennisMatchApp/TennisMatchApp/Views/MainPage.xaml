@@ -1,15 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TennisMatchApp.MainPage"
+    x:Class="TennisMatchApp.Views.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:TennisMatchApp.ViewModels"
     x:Name="MainPageName"
+    Title="Your matches"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
+    <ContentPage.BindingContext>
+        <vm:MainPageVM />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding New_Match_Clicked}" IconImageSource="add_icon" />
+    </ContentPage.ToolbarItems>
 
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">
@@ -17,36 +26,10 @@
         </behaviors:EventHandlerBehavior>
     </ContentPage.Behaviors>
 
-    <StackLayout Padding="0,10,0,0">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Label
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                HorizontalOptions="Center"
-                Style="{StaticResource TitleText}"
-                Text="YOUR MATCHES" />
-
-            <Button
-                Grid.Column="1"
-                Margin="0,-5,10,0"
-                Padding="0"
-                BackgroundColor="Transparent"
-                Command="{Binding New_Match_Clicked}"
-                FontFamily="OpenSans-ExtraBold.ttf#Open Sans"
-                FontSize="Title"
-                HorizontalOptions="End"
-                Text="+"
-                TextColor="Gray"
-                WidthRequest="30" />
-        </Grid>
+    <StackLayout Padding="0,5,0,0">
 
         <ListView
-            x:Name="matches_list_view"
+            Margin="0,-5,0,0"
             HasUnevenRows="true"
             IsPullToRefreshEnabled="True"
             IsRefreshing="{Binding IsRefreshing}"
@@ -103,7 +86,7 @@
                                         FontSize="Small"
                                         HorizontalOptions="EndAndExpand"
                                         Opacity="0.7"
-                                        Text="{Binding BestOf}" />
+                                        Text="{Binding MatchTime}" />
                                 </StackLayout>
                             </StackLayout>
                         </materialFrame:MaterialFrame>
@@ -111,6 +94,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
     </StackLayout>
 
 </ContentPage>

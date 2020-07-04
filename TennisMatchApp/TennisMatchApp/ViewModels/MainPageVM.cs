@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using System.Linq;
+using TennisMatchApp.Views;
+using TennisMatchApp.Models;
 
 namespace TennisMatchApp.ViewModels
 {
-    class MainPageViewModel : BaseViewModel
+    class MainPageVM : BaseVM
     {
         bool _isRefreshing;
         Match _selectedItem;
@@ -14,7 +16,7 @@ namespace TennisMatchApp.ViewModels
         public Command New_Match_Clicked { get; set; }
         public Command Delete_Match_Clicked { get; set; }
         public Command Refresh { get; set; }
-        public MainPageViewModel()
+        public MainPageVM()
         {
             New_Match_Clicked = new Command(NewMatch);
             Delete_Match_Clicked = new Command<Match>(DeleteMatch);
@@ -42,7 +44,10 @@ namespace TennisMatchApp.ViewModels
                 App.currentMatch = m;
                 try
                 {
-                    App.Current.MainPage.Navigation.PushAsync(new MatchPage());
+                    if(m.AdvancedStats)
+                        App.Current.MainPage.Navigation.PushAsync(new AdvancedMatchPageTabbed());
+                    else
+                        App.Current.MainPage.Navigation.PushAsync(new BasicMatchPage());
                 }
                 catch
                 {
