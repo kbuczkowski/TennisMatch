@@ -3,6 +3,7 @@
     x:Class="TennisMatchApp.Views.AdvancedStatsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,266 +11,11 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
-    <ContentPage.Resources>
-        <ControlTemplate x:Key="BasicStats">
-            <StackLayout BindingContext="{TemplateBinding BindingContext}">
-
-                <StackLayout Orientation="Horizontal">
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="StartAndExpand"
-                        Text="{Binding P1_PointsWon}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                    <Label
-                        HorizontalOptions="Center"
-                        Style="{StaticResource StatsText}"
-                        Text="POINTS WON" />
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding P2_PointsWon}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                </StackLayout>
-
-                <ProgressBar Margin="0,0,0,10" Progress="{Binding PointsWon}" />
-
-                <StackLayout Orientation="Horizontal">
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="StartAndExpand"
-                        Text="{Binding P1_BreakPoints}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                    <Label
-                        HorizontalOptions="Center"
-                        Style="{StaticResource StatsText}"
-                        Text="BREAK POINTS" />
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding P2_BreakPoints}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                </StackLayout>
-
-                <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPoints}" />
-
-                <StackLayout Orientation="Horizontal">
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="StartAndExpand"
-                        Text="{Binding P1_BreakPointsWon}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                    <Label
-                        HorizontalOptions="Center"
-                        Style="{StaticResource StatsText}"
-                        Text="BREAK POINTS WON" />
-                    <Label
-                        FontSize="Medium"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding P2_BreakPointsWon}"
-                        TextColor="Black"
-                        VerticalOptions="Center" />
-                </StackLayout>
-
-                <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPointsWon}" />
-
-                <Label
-                    HorizontalOptions="Center"
-                    Style="{StaticResource TitleText}"
-                    Text="{Binding MatchTime}" />
-
-            </StackLayout>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="AdvancedStats">
-            <Grid BindingContext="{TemplateBinding BindingContext}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-
-                <Frame
-                    Grid.Row="0"
-                    Margin="0,10"
-                    Padding="10,5"
-                    BackgroundColor="LightBlue"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill">
-                    <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding P1_PointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="End"
-                            Text="{Binding P2_PointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Frame
-                    Grid.Row="0"
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="GreenYellow"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center">
-                    <Label Style="{StaticResource StatsText}" Text="POINTS WON" />
-                </Frame>
-
-                <Frame
-                    Grid.Row="1"
-                    Margin="0,10"
-                    Padding="10,5"
-                    BackgroundColor="LightBlue"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill">
-                    <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding P1_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="End"
-                            Text="{Binding P2_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Frame
-                    Grid.Row="1"
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="GreenYellow"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center">
-                    <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
-                </Frame>
-
-                <Frame
-                    Grid.Row="2"
-                    Margin="0,10"
-                    Padding="10,5"
-                    BackgroundColor="LightBlue"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill">
-                    <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding P1_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="End"
-                            Text="{Binding P2_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Frame
-                    Grid.Row="2"
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="GreenYellow"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center">
-                    <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
-                </Frame>
-
-                <Frame
-                    Grid.Row="3"
-                    Margin="0,10"
-                    Padding="10,5"
-                    BackgroundColor="LightBlue"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill">
-                    <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding P1_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="End"
-                            Text="{Binding P2_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Frame
-                    Grid.Row="3"
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="GreenYellow"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center">
-                    <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
-                </Frame>
-
-                <Frame
-                    Grid.Row="4"
-                    Margin="0,10"
-                    Padding="10,5"
-                    BackgroundColor="LightBlue"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill">
-                    <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding P1_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontSize="Medium"
-                            HorizontalOptions="End"
-                            Text="{Binding P2_BreakPointsWon}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Frame
-                    Grid.Row="4"
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="GreenYellow"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center">
-                    <Label Style="{StaticResource StatsText}" Text="BREAK POINTS" />
-                </Frame>
-
-                <ProgressBar
-                    Grid.Row="5"
-                    Margin="10"
-                    Progress="0.5" />
-            </Grid>
-        </ControlTemplate>
-    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding Refresh_Command}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
 
     <ContentPage.Content>
         <StackLayout Padding="10">
@@ -279,10 +25,9 @@
                 Style="{StaticResource TitleText}"
                 Text="STATISTICS" />
 
+                <materialFrame:MaterialFrame Style="{StaticResource LightFrame}">
 
-            <materialFrame:MaterialFrame Style="{StaticResource LightFrame}" VerticalOptions="Fill">
                 <StackLayout>
-
 
                     <StackLayout Orientation="Horizontal">
                         <Label
@@ -296,23 +41,269 @@
                     </StackLayout>
 
                     <ScrollView>
-                        <ContentView ControlTemplate="{StaticResource BasicStats}">
-                            <ContentView.Style>
-                                <Style TargetType="ContentView">
-                                    <Style.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding AdvancedStats}"
-                                            TargetType="ContentView"
-                                            Value="true">
-                                            <Setter Property="ControlTemplate" Value="{StaticResource AdvancedStats}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentView.Style>
-                        </ContentView>
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_PointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="POINTS WON" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_PointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding PointsWon}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_BreakPoints}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="BREAK POINTS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_BreakPoints}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPoints}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_BreakPointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="BREAK POINTS WON" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_BreakPointsWon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding BreakPointsWon}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_Aces}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="ACES" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_Aces}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding Aces}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_DoubleFaults}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="DOUBLE FAULTS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_DoubleFaults}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding DoubleFaults}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_Winners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="WINNERS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_Winners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding Winners}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_ForehandWinners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="FOREHAND WINNERS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_ForehandWinners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding ForehandWinners}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_BackhandWinners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="BACKHAND WINNERS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_BackhandWinners}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding BackhandWinners}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_UnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="UNFORCED ERRORS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_UnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding UnforcedErrors}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_ForehandUnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="FH UNFORCED ERRORS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_ForehandUnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding ForehandUnforcedErrors}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_BackhandUnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="BH UNFORCED ERRORS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_BackhandUnforcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding BackhandUnforcedErrors}" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding P1_ForcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource StatsText}"
+                                    Text="FORCED ERRORS" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding P2_ForcedErrors}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <ProgressBar Margin="0,0,0,10" Progress="{Binding ForcedErrors}" />
+                        </StackLayout>
                     </ScrollView>
                 </StackLayout>
+
             </materialFrame:MaterialFrame>
+
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource TitleText}"
+                Text="{Binding MatchTime}" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

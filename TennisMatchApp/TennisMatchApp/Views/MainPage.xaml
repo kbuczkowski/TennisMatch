@@ -17,12 +17,12 @@
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding New_Match_Clicked}" IconImageSource="add_icon" />
+        <ToolbarItem Command="{Binding New_Match_Command}" IconImageSource="add_icon" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">
-            <behaviors:InvokeCommandAction Command="{Binding Refresh}" />
+            <behaviors:InvokeCommandAction Command="{Binding Refresh_Command}" />
         </behaviors:EventHandlerBehavior>
     </ContentPage.Behaviors>
 
@@ -34,7 +34,7 @@
             IsPullToRefreshEnabled="True"
             IsRefreshing="{Binding IsRefreshing}"
             ItemsSource="{Binding Matches}"
-            RefreshCommand="{Binding Refresh}"
+            RefreshCommand="{Binding Refresh_Command}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             SeparatorVisibility="None">
             <ListView.ItemTemplate>
@@ -42,7 +42,7 @@
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem
-                                Command="{Binding BindingContext.Delete_Match_Clicked, Source={x:Reference Name=MainPageName}}"
+                                Command="{Binding BindingContext.Delete_Match_Command, Source={x:Reference Name=MainPageName}}"
                                 CommandParameter="{Binding .}"
                                 IsDestructive="True"
                                 Text="Delete" />
@@ -94,7 +94,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        
     </StackLayout>
 
 </ContentPage>

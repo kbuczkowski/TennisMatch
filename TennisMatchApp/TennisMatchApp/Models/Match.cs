@@ -251,29 +251,29 @@ namespace TennisMatchApp.Models
 
             if (AdvancedStats)
             {
-                P1_Aces = 0;
-                P1_ForcedErrors = 0;
-                P1_UnforcedErrors = 0;
-                P1_FirstServeIn = 0;
-                P1_DoubleFaults = 0;
-                P1_ServePointsPlayed = 0;
-                P1_Winners = 0;
-                P1_ForehandWinners = 0;
-                P1_BackhandWinners = 0;
-                P1_ForehandUnforcedErrors = 0;
-                P1_BackhandUnforcedErrors = 0;
+                P1_Aces = p_match.P1_Aces;
+                P1_ForcedErrors = p_match.P1_ForcedErrors;
+                P1_UnforcedErrors = p_match.P1_UnforcedErrors;
+                P1_FirstServeIn = p_match.P1_FirstServeIn;
+                P1_DoubleFaults = p_match.P1_DoubleFaults;
+                P1_ServePointsPlayed = p_match.P1_ServePointsPlayed;
+                P1_Winners = p_match.P1_Winners;
+                P1_ForehandWinners = p_match.P1_ForehandWinners;
+                P1_BackhandWinners = p_match.P1_BackhandWinners;
+                P1_ForehandUnforcedErrors = p_match.P1_ForehandUnforcedErrors;
+                P1_BackhandUnforcedErrors = p_match.P1_BackhandUnforcedErrors;
 
-                P2_Aces = 0;
-                P2_ForcedErrors = 0;
-                P2_UnforcedErrors = 0;
-                P2_FirstServeIn = 0;
-                P2_DoubleFaults = 0;
-                P2_ServePointsPlayed = 0;
-                P2_Winners = 0;
-                P2_ForehandWinners = 0;
-                P2_BackhandWinners = 0;
-                P2_ForehandUnforcedErrors = 0;
-                P2_BackhandUnforcedErrors = 0;
+                P2_Aces = p_match.P2_Aces;
+                P2_ForcedErrors = p_match.P2_ForcedErrors;
+                P2_UnforcedErrors = p_match.P2_UnforcedErrors;
+                P2_FirstServeIn = p_match.P2_FirstServeIn;
+                P2_DoubleFaults = p_match.P2_DoubleFaults;
+                P2_ServePointsPlayed = p_match.P2_ServePointsPlayed;
+                P2_Winners = p_match.P2_Winners;
+                P2_ForehandWinners = p_match.P2_ForehandWinners;
+                P2_BackhandWinners = p_match.P2_BackhandWinners;
+                P2_ForehandUnforcedErrors = p_match.P2_ForehandUnforcedErrors;
+                P2_BackhandUnforcedErrors = p_match.P2_BackhandUnforcedErrors;
             }
         }
     }

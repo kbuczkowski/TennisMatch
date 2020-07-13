@@ -11,9 +11,9 @@
     mc:Ignorable="d">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding Pause_Clicked}" IconImageSource="pause_icon" />
-        <ToolbarItem Command="{Binding Play_Clicked}" IconImageSource="play_icon" />
-        <ToolbarItem Command="{Binding Restore_Point_Clicked}" IconImageSource="reverse_icon" />
+        <ToolbarItem Command="{Binding Pause_Command}" IconImageSource="pause_icon" />
+        <ToolbarItem Command="{Binding Play_Command}" IconImageSource="play_icon" />
+        <ToolbarItem Command="{Binding Restore_Point_Command}" IconImageSource="reverse_icon" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
@@ -165,7 +165,7 @@
                         <StackLayout>
                             <Frame
                                 Padding="5"
-                                BackgroundColor="#FFFFFF"
+                                BackgroundColor="Transparent"
                                 BorderColor="#007AFF"
                                 CornerRadius="5">
                                 <Label
@@ -176,7 +176,7 @@
                             </Frame>
                             <Frame
                                 Padding="5"
-                                BackgroundColor="#FFFFFF"
+                                BackgroundColor="Transparent"
                                 BorderColor="#007AFF"
                                 CornerRadius="5"
                                 WidthRequest="30">
@@ -215,11 +215,43 @@
                             HorizontalOptions="Center"
                             Style="{StaticResource SubTitleText}"
                             Text="{Binding P1_Name}" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Command="{Binding P1_Ace_Command}"
+                                Style="{StaticResource AdvancedMatchGrayButton}"
+                                Text="Ace" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding P1_Fault_Command}"
+                                Style="{StaticResource AdvancedMatchGrayButton}"
+                                Text="{Binding P1_FaultButtonText}" />
+                        </Grid>
+
                         <Button
-                            Padding="0"
-                            Command="{Binding P1_Point_Clicked}"
+                            Command="{Binding P1_ForehandWinner_Command}"
                             Style="{StaticResource GrayButton}"
-                            Text="Point" />
+                            Text="FH Winner" />
+                        <Button
+                            Command="{Binding P1_BackhandWinner_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="BH Winner" />
+                        <Button
+                            Command="{Binding P1_ForehandUnforcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="FH UF Error" />
+                        <Button
+                            Command="{Binding P1_BackhandUnforcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="BH UF Error" />
+                        <Button
+                            Command="{Binding P1_ForcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="Forced Error" />
                     </StackLayout>
                 </materialFrame:MaterialFrame>
 
@@ -229,11 +261,43 @@
                             HorizontalOptions="Center"
                             Style="{StaticResource SubTitleText}"
                             Text="{Binding P2_Name}" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Command="{Binding P2_Ace_Command}"
+                                Style="{StaticResource AdvancedMatchGrayButton}"
+                                Text="Ace" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding P2_Fault_Command}"
+                                Style="{StaticResource AdvancedMatchGrayButton}"
+                                Text="{Binding P2_FaultButtonText}" />
+                        </Grid>
+
                         <Button
-                            Padding="0"
-                            Command="{Binding P2_Point_Clicked}"
+                            Command="{Binding P2_ForehandWinner_Command}"
                             Style="{StaticResource GrayButton}"
-                            Text="Point" />
+                            Text="FH Winner" />
+                        <Button
+                            Command="{Binding P2_BackhandWinner_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="BH Winner" />
+                        <Button
+                            Command="{Binding P2_ForehandUnforcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="FH UF Error" />
+                        <Button
+                            Command="{Binding P2_BackhandUnforcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="BH UF Error" />
+                        <Button
+                            Command="{Binding P2_ForcedError_Command}"
+                            Style="{StaticResource GrayButton}"
+                            Text="Forced Error" />
                     </StackLayout>
                 </materialFrame:MaterialFrame>
             </Grid>

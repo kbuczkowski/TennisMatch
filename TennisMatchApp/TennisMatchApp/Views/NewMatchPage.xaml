@@ -22,13 +22,25 @@
             <materialFrame:MaterialFrame Style="{StaticResource LightFrame}">
 
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
-                    <StackLayout Grid.Column="0">
+                    <Label FontSize="Medium" Text="Players' names" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="Serve" />
+
+                    <StackLayout Grid.Row="1" Grid.Column="0">
                         <Entry
                             MaxLength="12"
                             Placeholder="Player 1"
@@ -39,8 +51,61 @@
                             Text="{Binding P2_Name}" />
                     </StackLayout>
 
-                    <StackLayout Grid.Column="1">
-                        <Button
+                    <StackLayout Grid.Row="1" Grid.Column="1">
+
+                        <ImageButton
+                            Command="{Binding P1_To_Serve_Clicked}"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BackgroundColor="Transparent"
+                            Source="ball_icon">
+                            <ImageButton.Style>
+                                <Style TargetType="ImageButton">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding FirstPlayerToServe}"
+                                            TargetType="ImageButton"
+                                            Value="true">
+                                            <Setter Property="Source" Value="ball_icon" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding FirstPlayerToServe}"
+                                            TargetType="ImageButton"
+                                            Value="false">
+                                            <Setter Property="Source" Value="ball_disabled_icon" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ImageButton.Style>
+                        </ImageButton>
+
+                        <ImageButton
+                            Command="{Binding P2_To_Serve_Clicked}"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BackgroundColor="Transparent"
+                            Source="ball_disabled_icon">
+                            <ImageButton.Style>
+                                <Style TargetType="ImageButton">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding FirstPlayerToServe}"
+                                            TargetType="ImageButton"
+                                            Value="false">
+                                            <Setter Property="Source" Value="ball_icon" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding FirstPlayerToServe}"
+                                            TargetType="ImageButton"
+                                            Value="true">
+                                            <Setter Property="Source" Value="ball_disabled_icon" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ImageButton.Style>
+                        </ImageButton>
+
+                        <!--    <Button
                             Command="{Binding P1_To_Serve_Clicked}"
                             CornerRadius="30"
                             HeightRequest="45"
@@ -53,14 +118,12 @@
                                             TargetType="Button"
                                             Value="true">
                                             <Setter Property="BackgroundColor" Value="GreenYellow" />
-                                            <Setter Property="Text" Value="" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding FirstPlayerToServe}"
                                             TargetType="Button"
                                             Value="false">
                                             <Setter Property="BackgroundColor" Value="LightGray" />
-                                            <Setter Property="Text" Value="" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -80,158 +143,157 @@
                                             TargetType="Button"
                                             Value="false">
                                             <Setter Property="BackgroundColor" Value="GreenYellow" />
-                                            <Setter Property="Text" Value="" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding FirstPlayerToServe}"
                                             TargetType="Button"
                                             Value="true">
                                             <Setter Property="BackgroundColor" Value="LightGray" />
-                                            <Setter Property="Text" Value="" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                        </Button>
+                        </Button>-->
                     </StackLayout>
                 </Grid>
             </materialFrame:MaterialFrame>
 
             <materialFrame:MaterialFrame Margin="0,10" Style="{StaticResource LightFrame}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="65*" />
-                        <ColumnDefinition Width="12*" />
-                        <ColumnDefinition Width="11*" />
-                        <ColumnDefinition Width="12*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70*" />
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="12*" />
+                            <ColumnDefinition Width="9*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalOptions="Start"
-                        Text="Sets to win match:" />
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Command="{Binding Sets_Minus_Clicked}"
-                        HeightRequest="35"
-                        Text="-" />
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        FontSize="Large"
-                        HorizontalOptions="Center"
-                        Text="{Binding SetsToWin}" />
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="3"
-                        Command="{Binding Sets_Plus_Clicked}"
-                        HeightRequest="35"
-                        Text="+" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="Sets to win match:" />
+                        <ImageButton
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            Command="{Binding Sets_Minus_Clicked}"
+                            HeightRequest="30"
+                            Source="minus_icon" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            FontSize="Large"
+                            HorizontalOptions="Center"
+                            Text="{Binding SetsToWin}" />
+                        <ImageButton
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            BackgroundColor="Transparent"
+                            Command="{Binding Sets_Plus_Clicked}"
+                            HeightRequest="30"
+                            Source="plus_icon" />
 
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalOptions="Start"
-                        Text="Games to win set:" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Command="{Binding Games_Minus_Clicked}"
-                        HeightRequest="35"
-                        Text="-" />
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        FontSize="Large"
-                        HorizontalOptions="Center"
-                        Text="{Binding GamesToWin}" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Command="{Binding Games_Plus_Clicked}"
-                        HeightRequest="35"
-                        Text="+" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="Games to win set:" />
+                        <ImageButton
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            Command="{Binding Games_Minus_Clicked}"
+                            HeightRequest="30"
+                            Source="minus_icon" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            FontSize="Large"
+                            HorizontalOptions="Center"
+                            Text="{Binding GamesToWin}" />
+                        <ImageButton
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            BackgroundColor="Transparent"
+                            Command="{Binding Games_Plus_Clicked}"
+                            HeightRequest="30"
+                            Source="plus_icon" />
 
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalOptions="Start"
-                        Text="To win tiebreak:" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="To win tiebreak:" />
+                        <ImageButton
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            Command="{Binding TieBreak_Minus_Clicked}"
+                            HeightRequest="30"
+                            Source="minus_icon" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            FontSize="Large"
+                            HorizontalOptions="Center"
+                            Text="{Binding PointsToWinTieBreak}"
+                            VerticalOptions="Center" />
+                        <ImageButton
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            BackgroundColor="Transparent"
+                            Command="{Binding TieBreak_Plus_Clicked}"
+                            HeightRequest="30"
+                            Source="plus_icon" />
+
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="Advantage play:" />
+                        <Switch
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            HorizontalOptions="End"
+                            IsToggled="{Binding AdvantagePlay}"
+                            OnColor="GreenYellow"
+                            ThumbColor="LightGray" />
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="Advanced stats:" />
+                        <Switch
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            HorizontalOptions="End"
+                            IsToggled="{Binding AdvancedStats}"
+                            OnColor="GreenYellow"
+                            ThumbColor="LightGray" />
+                    </Grid>
+
                     <Button
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Command="{Binding TieBreak_Minus_Clicked}"
-                        HeightRequest="35"
-                        Text="-" />
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        FontSize="Large"
-                        HorizontalOptions="Center"
-                        Text="{Binding PointsToWinTieBreak}"
-                        VerticalOptions="Center" />
-                    <Button
-                        Grid.Row="2"
-                        Grid.Column="3"
-                        Command="{Binding TieBreak_Plus_Clicked}"
-                        HeightRequest="35"
-                        Text="+" />
-
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalOptions="Start"
-                        Text="Advantage play:" />
-                    <Switch
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="3"
-                        HorizontalOptions="End"
-                        IsToggled="{Binding AdvantagePlay}"
-                        OnColor="GreenYellow"
-                        ThumbColor="LightGray" />
-
-                    <Label
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalOptions="Start"
-                        Text="Advanced stats:" />
-                    <Switch
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="3"
-                        HorizontalOptions="End"
-                        IsToggled="{Binding AdvancedStats}"
-                        OnColor="GreenYellow"
-                        ThumbColor="LightGray" />
-
-                    <Button
-                Grid.Row="5"
-                Grid.Column="0"
-                Grid.ColumnSpan="4"
-                Text="Create match"
-                Style="{StaticResource GrayButton}"
-                Command="{Binding Create_Match_Clicked}"/>
-                    
-                </Grid>
-
+                        Command="{Binding Create_Match_Clicked}"
+                        Style="{StaticResource GrayButton}"
+                        Text="Create match" />
+                </StackLayout>
             </materialFrame:MaterialFrame>
-
         </StackLayout>
 
     </ContentPage.Content>

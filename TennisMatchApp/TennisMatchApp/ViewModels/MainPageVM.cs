@@ -13,14 +13,14 @@ namespace TennisMatchApp.ViewModels
         bool _isRefreshing;
         Match _selectedItem;
         List<Match> _matches;
-        public Command New_Match_Clicked { get; set; }
-        public Command Delete_Match_Clicked { get; set; }
-        public Command Refresh { get; set; }
+        public Command New_Match_Command { get; set; }
+        public Command Delete_Match_Command { get; set; }
+        public Command Refresh_Command { get; set; }
         public MainPageVM()
         {
-            New_Match_Clicked = new Command(NewMatch);
-            Delete_Match_Clicked = new Command<Match>(DeleteMatch);
-            Refresh = new Command(RefreshMatches);
+            New_Match_Command = new Command(NewMatch);
+            Delete_Match_Command = new Command<Match>(DeleteMatch);
+            Refresh_Command = new Command(RefreshMatches);
         }
         public Match SelectedItem
         {

@@ -1,82 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
-             mc:Ignorable="d"
-             x:Class="TennisMatchApp.App">
+<Application
+    x:Class="TennisMatchApp.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:materialFrame="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
     <Application.Resources>
-        <Style
-            x:Key="LightFrame"
-            TargetType="materialFrame:MaterialFrame">
-            <Setter Property="MaterialTheme" Value="Light"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Elevation" Value="6"/>
+        <Style x:Key="LightFrame" TargetType="materialFrame:MaterialFrame">
+            <Setter Property="MaterialTheme" Value="Acrylic" />
+            <Setter Property="LightThemeBackgroundColor" Value="#F1F1F1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Elevation" Value="6" />
         </Style>
 
-        <Style
-            x:Key="PageStyle"
-            TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#EAEAEA"/>
+        <Style x:Key="LightFrameList" TargetType="materialFrame:MaterialFrame">
+            <Setter Property="MaterialTheme" Value="Light" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Elevation" Value="6" />
         </Style>
 
-        <Style
-            x:Key="TitleText"
-            TargetType="Label">
-            <Setter Property="FontFamily" Value="OpenSans-ExtraBold.ttf#Open Sans"/>
-            <Setter Property="FontSize" Value="Title"/>
-            <Setter Property="TextColor" Value="Gray"/>
+        <Style x:Key="PageStyle" TargetType="ContentPage">
+            <Setter Property="BackgroundImageSource" Value="background" />
         </Style>
 
-        <Style
-            x:Key="SubTitleText"
-            TargetType="Label">
-            <Setter Property="FontFamily" Value="OpenSans"/>
-            <Setter Property="FontSize" Value="Large"/>
-            <Setter Property="TextColor" Value="Gray"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
+        <Style x:Key="TitleText" TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans-ExtraBold.ttf#Open Sans" />
+            <Setter Property="FontSize" Value="Title" />
+            <Setter Property="TextColor" Value="#F1F1F1" />
         </Style>
 
-        <Style
-            x:Key="StatsText"
-            TargetType="Label">
-            <Setter Property="FontSize" Value="Large"/>
-            <Setter Property="TextColor" Value="Black"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
+        <Style x:Key="SubTitleText" TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans" />
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontAttributes" Value="Bold" />
         </Style>
 
-        <Style
-            x:Key="WhiteButton"
-            TargetType="Button">
-            <Setter Property="BackgroundColor" Value="#FFFFFF"/>
-            <Setter Property="BorderColor" Value="#007AFF"/>
-            <Setter Property="TextColor" Value="#007AFF"/>
-            <Setter Property="BorderWidth" Value="3"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="FontSize" Value="Large"/>
+        <Style x:Key="StatsText" TargetType="Label">
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontAttributes" Value="Bold" />
         </Style>
 
-        <Style
-            x:Key="BlueButton"
-            TargetType="Button">
-            <Setter Property="BackgroundColor" Value="#007AFF"/>
-            <Setter Property="TextColor" Value="#FFFFFF"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="FontSize" Value="Large"/>
+        <Style x:Key="WhiteButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#FFFFFF" />
+            <Setter Property="BorderColor" Value="#007AFF" />
+            <Setter Property="TextColor" Value="#007AFF" />
+            <Setter Property="BorderWidth" Value="3" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="Large" />
         </Style>
 
-        <Style
-            x:Key="GrayButton"
-            TargetType="Button">
-            <Setter Property="BackgroundColor" Value="#F4F4F5"/>
-            <Setter Property="TextColor" Value="#007AFF"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="FontSize" Value="Large"/>
+        <Style x:Key="BlueButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#007AFF" />
+            <Setter Property="TextColor" Value="#FFFFFF" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="Large" />
+        </Style>
+
+        <Style x:Key="GrayButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#E1E1E1" />
+            <Setter Property="TextColor" Value="#007AFF" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style x:Key="AdvancedMatchGrayButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#E1E1E1" />
+            <Setter Property="TextColor" Value="#007AFF" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="Padding" Value="0" />
         </Style>
 
         <ControlTemplate x:Key="FirstSet">

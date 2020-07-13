@@ -13,22 +13,35 @@ namespace TennisMatchApp.ViewModels
     {
         Match match, previousPoint;
         bool _isPlaying = false;
-        public Command P1_Point_Clicked { get; set; }
-        public Command P2_Point_Clicked { get; set; }
-        public Command Restore_Point_Clicked { get; set; }
-        public Command Pause_Clicked { get; set; }
-        public Command Play_Clicked { get; set; }
-        public MatchPageVM()
-        {
-            match = App.currentMatch;
-            Device.StartTimer(TimeSpan.FromSeconds(1.0), Tick);
+        bool _p1FirstFault = false;
+        bool _p2FirstFault = false;
+        string _p1_FaultButtonText = "Fault";
+        string _p2_FaultButtonText = "Fault";
 
-            P1_Point_Clicked = new Command(P1_Point_Click, ButtonsEnable);
-            P2_Point_Clicked = new Command(P2_Point_Click, ButtonsEnable);
-            Pause_Clicked = new Command(Pause);
-            Play_Clicked = new Command(Play);
-            Restore_Point_Clicked = new Command(Restore);
-        }
+        #region commands
+        public Command Restore_Point_Command { get; set; }
+        public Command Pause_Command { get; set; }
+        public Command Play_Command { get; set; }
+        public Command P1_Point_Command { get; set; }
+        public Command P2_Point_Command { get; set; }
+        public Command P1_Ace_Command { get; set; }
+        public Command P2_Ace_Command { get; set; }
+        public Command P1_Fault_Command { get; set; }
+        public Command P2_Fault_Command { get; set; }
+        public Command P1_ForehandWinner_Command { get; set; }
+        public Command P2_ForehandWinner_Command { get; set; }
+        public Command P1_BackhandWinner_Command { get; set; }
+        public Command P2_BackhandWinner_Command { get; set; }
+        public Command P1_ForehandUnforcedError_Command { get; set; }
+        public Command P2_ForehandUnforcedError_Command { get; set; }
+        public Command P1_BackhandUnforcedError_Command { get; set; }
+        public Command P2_BackhandUnforcedError_Command { get; set; }
+        public Command P1_ForcedError_Command { get; set; }
+        public Command P2_ForcedError_Command { get; set; }
+        public Command Refresh_Command { get; set; }
+        #endregion
+        
+        #region scores
         public string MatchName
         {
             get
@@ -44,20 +57,6 @@ namespace TennisMatchApp.ViewModels
                 int m = (match.TimeElapsed - (h * 3600)) / 60;
                 int s = (match.TimeElapsed - (h * 3600) - (m * 60));
                 return "TIME: " + h.ToString() + ":" + m.ToString("00") + ":" + s.ToString("00");
-            }
-        }
-        public string P1_Name
-        {
-            get
-            {
-                return match.P1_Name;
-            }
-        }
-        public string P2_Name
-        {
-            get
-            {
-                return match.P2_Name;
             }
         }
         public string P1_FirstSet
@@ -256,8 +255,9 @@ namespace TennisMatchApp.ViewModels
                 OnPropertyChanged(nameof(P2_ActualScore));
             }
         }
+        #endregion
 
-        #region stats
+        #region basic stats
         public string P1_PointsWon
         {
             get
@@ -340,6 +340,152 @@ namespace TennisMatchApp.ViewModels
             }
         }
         #endregion
+
+        #region advanced stats
+        public int P1_Aces { get { return match.P1_Aces; } }
+        public int P1_ForcedErrors { get { return match.P1_ForcedErrors; } }
+        public int P1_UnforcedErrors { get { return match.P1_UnforcedErrors; } }
+        public int P1_FirstServeIn { get { return match.P1_FirstServeIn; } }
+        public int P1_DoubleFaults { get { return match.P1_DoubleFaults; } }
+        public int P1_ServePointsPlayed { get { return match.P1_ServePointsPlayed; } }
+        public int P1_Winners { get { return match.P1_Winners; } }
+        public int P1_ForehandWinners { get { return match.P1_ForehandWinners; } }
+        public int P1_BackhandWinners { get { return match.P1_BackhandWinners; } }
+        public int P1_ForehandUnforcedErrors { get { return match.P1_ForehandUnforcedErrors; } }
+        public int P1_BackhandUnforcedErrors { get { return match.P1_BackhandUnforcedErrors; } }
+        public int P2_Aces { get { return match.P2_Aces; } }
+        public int P2_ForcedErrors { get { return match.P2_ForcedErrors; } }
+        public int P2_UnforcedErrors { get { return match.P2_UnforcedErrors; } }
+        public int P2_FirstServeIn { get { return match.P2_FirstServeIn; } }
+        public int P2_DoubleFaults { get { return match.P2_DoubleFaults; } }
+        public int P2_ServePointsPlayed { get { return match.P2_ServePointsPlayed; } }
+        public int P2_Winners { get { return match.P2_Winners; } }
+        public int P2_ForehandWinners { get { return match.P2_ForehandWinners; } }
+        public int P2_BackhandWinners { get { return match.P2_BackhandWinners; } }
+        public int P2_ForehandUnforcedErrors { get { return match.P2_ForehandUnforcedErrors; } }
+        public int P2_BackhandUnforcedErrors { get { return match.P2_BackhandUnforcedErrors; } }
+        public double Aces
+        {
+            get
+            {
+                if (match.P1_Aces != 0 || match.P2_Aces != 0)
+                    return (double)match.P1_Aces / (double)(match.P1_Aces + match.P2_Aces);
+                return 0.5;
+            }
+        }
+        public double DoubleFaults
+        {
+            get
+            {
+                if (match.P1_DoubleFaults != 0 || match.P2_DoubleFaults != 0)
+                    return (double)match.P1_DoubleFaults / (double)(match.P1_DoubleFaults + match.P2_DoubleFaults);
+                return 0.5;
+            }
+        }
+        public double Winners
+        {
+            get
+            {
+                if (match.P1_Winners != 0 || match.P2_Winners != 0)
+                    return (double)match.P1_Winners / (double)(match.P1_Winners + match.P2_Winners);
+                return 0.5;
+            }
+        }
+        public double ForehandWinners
+        {
+            get
+            {
+                if (match.P1_ForehandWinners != 0 || match.P2_ForehandWinners != 0)
+                    return (double)match.P1_ForehandWinners / (double)(match.P1_ForehandWinners + match.P2_ForehandWinners);
+                return 0.5;
+            }
+        }
+        public double BackhandWinners
+        {
+            get
+            {
+                if (match.P1_BackhandWinners != 0 || match.P2_BackhandWinners != 0)
+                    return (double)match.P1_BackhandWinners / (double)(match.P1_BackhandWinners + match.P2_BackhandWinners);
+                return 0.5;
+            }
+        }
+        public double UnforcedErrors
+        {
+            get
+            {
+                if (match.P1_UnforcedErrors != 0 || match.P2_UnforcedErrors != 0)
+                    return (double)match.P1_UnforcedErrors / (double)(match.P1_UnforcedErrors + match.P2_UnforcedErrors);
+                return 0.5;
+            }
+        }
+        public double ForehandUnforcedErrors
+        {
+            get
+            {
+                if (match.P1_ForehandUnforcedErrors != 0 || match.P2_ForehandUnforcedErrors != 0)
+                    return (double)match.P1_ForehandUnforcedErrors / (double)(match.P1_ForehandUnforcedErrors + match.P2_ForehandUnforcedErrors);
+                return 0.5;
+            }
+        }
+        public double BackhandUnforcedErrors
+        {
+            get
+            {
+                if (match.P1_BackhandUnforcedErrors != 0 || match.P2_BackhandUnforcedErrors != 0)
+                    return (double)match.P1_BackhandUnforcedErrors / (double)(match.P1_BackhandUnforcedErrors + match.P2_BackhandUnforcedErrors);
+                return 0.5;
+            }
+        }
+        public double ForcedErrors
+        {
+            get
+            {
+                if (match.P1_ForcedErrors != 0 || match.P2_ForcedErrors != 0)
+                    return (double)match.P1_ForcedErrors / (double)(match.P1_ForcedErrors + match.P2_ForcedErrors);
+                return 0.5;
+            }
+        }
+        #endregion
+
+        #region settings
+        public string P1_FaultButtonText
+        {
+            get
+            {
+                return _p1_FaultButtonText;
+            }
+            set
+            {
+                _p1_FaultButtonText = value;
+                OnPropertyChanged(nameof(P1_FaultButtonText));
+            }
+        }
+        public string P2_FaultButtonText
+        {
+            get
+            {
+                return _p2_FaultButtonText;
+            }
+            set
+            {
+                _p2_FaultButtonText = value;
+                OnPropertyChanged(nameof(P2_FaultButtonText));
+            }
+        }
+        public string P1_Name
+        {
+            get
+            {
+                return match.P1_Name;
+            }
+        }
+        public string P2_Name
+        {
+            get
+            {
+                return match.P2_Name;
+            }
+        }
         public int ActualSet
         {
             get
@@ -384,6 +530,10 @@ namespace TennisMatchApp.ViewModels
                 match.FirstPlayerToServe = value;
                 OnPropertyChanged(nameof(FirstPlayerToServe));
                 OnPropertyChanged(nameof(SecondPlayerToServe));
+                P1_Ace_Command.ChangeCanExecute();
+                P2_Ace_Command.ChangeCanExecute();
+                P1_Fault_Command.ChangeCanExecute();
+                P2_Fault_Command.ChangeCanExecute();
             }
         }
         public bool SecondPlayerToServe
@@ -416,6 +566,41 @@ namespace TennisMatchApp.ViewModels
                 return false;
             }
         }
+        #endregion
+        public MatchPageVM()
+        {
+            match = App.currentMatch;
+            Device.StartTimer(TimeSpan.FromSeconds(1.0), Tick);
+
+            Pause_Command = new Command(Pause);
+            Play_Command = new Command(Play);
+            Restore_Point_Command = new Command(Restore);
+            Refresh_Command = new Command(Refresh);
+
+            P1_Point_Command = new Command(P1_Point_Click, ButtonsEnable);
+            P2_Point_Command = new Command(P2_Point_Click, ButtonsEnable);
+
+            P1_Ace_Command = new Command(P1_Ace, P1_ServeButtonsEnable);
+            P2_Ace_Command = new Command(P2_Ace, P2_ServeButtonsEnable);
+            P1_Fault_Command = new Command(P1_Fault, P1_ServeButtonsEnable);
+            P2_Fault_Command = new Command(P2_Fault, P2_ServeButtonsEnable);
+
+            P1_ForehandWinner_Command = new Command(P1_ForehandWinner, ButtonsEnable);
+            P2_ForehandWinner_Command = new Command(P2_ForehandWinner, ButtonsEnable);
+
+            P1_BackhandWinner_Command = new Command(P1_BackhandWinner, ButtonsEnable);
+            P2_BackhandWinner_Command = new Command(P2_BackhandWinner, ButtonsEnable);
+
+            P1_ForehandUnforcedError_Command = new Command(P1_ForehandUnforcedError, ButtonsEnable);
+            P2_ForehandUnforcedError_Command = new Command(P2_ForehandUnforcedError, ButtonsEnable);
+
+            P1_BackhandUnforcedError_Command = new Command(P1_BackhandUnforcedError, ButtonsEnable);
+            P2_BackhandUnforcedError_Command = new Command(P2_BackhandUnforcedError, ButtonsEnable);
+
+            P1_ForcedError_Command = new Command(P1_ForcedError, ButtonsEnable);
+            P2_ForcedError_Command = new Command(P2_ForcedError, ButtonsEnable);
+        }
+        #region methods
         void P1_Point_Click(object obj)
         {
             P1_Point();
@@ -428,44 +613,72 @@ namespace TennisMatchApp.ViewModels
         {
             return IsPlaying;
         }
+        bool P1_ServeButtonsEnable(object obj)
+        {
+            if (IsPlaying && FirstPlayerToServe)
+                return true;
+            return false;
+        }
+        bool P2_ServeButtonsEnable(object obj)
+        {
+            if (IsPlaying && SecondPlayerToServe)
+                return true;
+            return false;
+        }
         void Restore(object obj)
         {
-            if (previousPoint != null || previousPoint == match)
+            if (_p1FirstFault)
             {
-                match = previousPoint;
-
-                using (var conn = new SQLite.SQLiteConnection(App.file_path))
+                _p1FirstFault = false;
+                P1_FaultButtonText = "Fault";
+                OnPropertyChanged(nameof(P1_FaultButtonText));
+            }
+            else if (_p2FirstFault)
+            {
+                _p2FirstFault = false;
+                P2_FaultButtonText = "Fault";
+                OnPropertyChanged(nameof(P2_FaultButtonText));
+            }
+            else
+            {
+                if (previousPoint != null || previousPoint == match)
                 {
-                    conn.Update(match);
+                    match = previousPoint;
+
+                    using (var conn = new SQLite.SQLiteConnection(App.file_path))
+                    {
+                        conn.Update(match);
+                    }
+
+                    OnPropertyChanged(nameof(FirstPlayerToServe));
+                    OnPropertyChanged(nameof(SecondPlayerToServe));
+                    OnPropertyChanged(nameof(P1_ActualScore));
+                    OnPropertyChanged(nameof(P1_FirstSet));
+                    OnPropertyChanged(nameof(P1_SecondSet));
+                    OnPropertyChanged(nameof(P1_ThirdSet));
+                    OnPropertyChanged(nameof(P1_FourthSet));
+                    OnPropertyChanged(nameof(P1_FifthSet));
+
+                    OnPropertyChanged(nameof(P2_ActualScore));
+                    OnPropertyChanged(nameof(P2_FirstSet));
+                    OnPropertyChanged(nameof(P2_SecondSet));
+                    OnPropertyChanged(nameof(P2_ThirdSet));
+                    OnPropertyChanged(nameof(P2_FourthSet));
+                    OnPropertyChanged(nameof(P2_FifthSet));
+
+                    OnPropertyChanged(nameof(P1_PointsWon));
+                    OnPropertyChanged(nameof(P1_BreakPointsWon));
+                    OnPropertyChanged(nameof(P2_PointsWon));
+                    OnPropertyChanged(nameof(P2_BreakPointsWon));
+
+                    OnPropertyChanged(nameof(PointsWon));
+                    OnPropertyChanged(nameof(BreakPoints));
+                    OnPropertyChanged(nameof(BreakPointsWon));
+
+                    OnPropertyChanged(nameof(ActualSet));
+
+                    OnPropertyChanged(nameof(MatchTime));
                 }
-
-                OnPropertyChanged(nameof(FirstPlayerToServe));
-                OnPropertyChanged(nameof(SecondPlayerToServe));
-                OnPropertyChanged(nameof(P1_ActualScore));
-                OnPropertyChanged(nameof(P1_FirstSet));
-                OnPropertyChanged(nameof(P1_SecondSet));
-                OnPropertyChanged(nameof(P1_ThirdSet));
-                OnPropertyChanged(nameof(P1_FourthSet));
-                OnPropertyChanged(nameof(P1_FifthSet));
-
-                OnPropertyChanged(nameof(P2_ActualScore));
-                OnPropertyChanged(nameof(P2_FirstSet));
-                OnPropertyChanged(nameof(P2_SecondSet));
-                OnPropertyChanged(nameof(P2_ThirdSet));
-                OnPropertyChanged(nameof(P2_FourthSet));
-                OnPropertyChanged(nameof(P2_FifthSet));
-
-                OnPropertyChanged(nameof(P1_PointsWon));
-                OnPropertyChanged(nameof(P1_BreakPointsWon));
-                OnPropertyChanged(nameof(P2_PointsWon));
-                OnPropertyChanged(nameof(P2_BreakPointsWon));
-                OnPropertyChanged(nameof(PointsWon));
-                OnPropertyChanged(nameof(BreakPoints));
-                OnPropertyChanged(nameof(BreakPointsWon));
-
-                OnPropertyChanged(nameof(ActualSet));
-
-                OnPropertyChanged(nameof(MatchTime));
             }
         }
         void Pause(object obj)
@@ -473,8 +686,22 @@ namespace TennisMatchApp.ViewModels
             _isPlaying = false;
 
             OnPropertyChanged(nameof(IsPaused));
-            P1_Point_Clicked.ChangeCanExecute();
-            P2_Point_Clicked.ChangeCanExecute();
+            P1_Point_Command.ChangeCanExecute();
+            P2_Point_Command.ChangeCanExecute();
+            P1_Ace_Command.ChangeCanExecute();
+            P2_Ace_Command.ChangeCanExecute();
+            P1_Fault_Command.ChangeCanExecute();
+            P2_Fault_Command.ChangeCanExecute();
+            P1_ForehandWinner_Command.ChangeCanExecute();
+            P2_ForehandWinner_Command.ChangeCanExecute();
+            P1_BackhandWinner_Command.ChangeCanExecute();
+            P2_BackhandWinner_Command.ChangeCanExecute();
+            P1_ForehandUnforcedError_Command.ChangeCanExecute();
+            P2_ForehandUnforcedError_Command.ChangeCanExecute();
+            P1_BackhandUnforcedError_Command.ChangeCanExecute();
+            P2_BackhandUnforcedError_Command.ChangeCanExecute();
+            P1_ForcedError_Command.ChangeCanExecute();
+            P2_ForcedError_Command.ChangeCanExecute();
         }
         void Play(object obj)
         {
@@ -483,14 +710,180 @@ namespace TennisMatchApp.ViewModels
                 _isPlaying = true;
 
                 OnPropertyChanged(nameof(IsPaused));
-                P1_Point_Clicked.ChangeCanExecute();
-                P2_Point_Clicked.ChangeCanExecute();
+                P1_Point_Command.ChangeCanExecute();
+                P2_Point_Command.ChangeCanExecute();
+                P1_Ace_Command.ChangeCanExecute();
+                P2_Ace_Command.ChangeCanExecute();
+                P1_Fault_Command.ChangeCanExecute();
+                P2_Fault_Command.ChangeCanExecute();
+                P1_ForehandWinner_Command.ChangeCanExecute();
+                P2_ForehandWinner_Command.ChangeCanExecute();
+                P1_BackhandWinner_Command.ChangeCanExecute();
+                P2_BackhandWinner_Command.ChangeCanExecute();
+                P1_ForehandUnforcedError_Command.ChangeCanExecute();
+                P2_ForehandUnforcedError_Command.ChangeCanExecute();
+                P1_BackhandUnforcedError_Command.ChangeCanExecute();
+                P2_BackhandUnforcedError_Command.ChangeCanExecute();
+                P1_ForcedError_Command.ChangeCanExecute();
+                P2_ForcedError_Command.ChangeCanExecute();
             }
+        }
+        void P1_Ace(object obj)
+        {
+            P1_Point();
+
+            match.P1_Aces++;
+            match.P1_Winners++;
+
+            if (!_p1FirstFault)
+                match.P1_FirstServeIn++;
+        }
+        void P2_Ace(object obj)
+        {
+            P2_Point();
+
+            match.P2_Aces++;
+            match.P2_Winners++;
+
+            if (!_p2FirstFault)
+                match.P2_FirstServeIn++;
+        }
+        void P1_Fault(object obj)
+        {
+            if (!_p1FirstFault)
+            {
+                _p1FirstFault = true;
+                P1_FaultButtonText = "D. Fault";
+            }
+            else
+            {
+                _p1FirstFault = false;
+                P1_FaultButtonText = "Fault";
+                match.P1_DoubleFaults++;
+                P2_Point();
+            }
+        }
+        void P2_Fault(object obj)
+        {
+            if (!_p2FirstFault)
+            {
+                _p2FirstFault = true;
+                P2_FaultButtonText = "D. Fault";
+            }
+            else
+            {
+                _p2FirstFault = false;
+                P2_FaultButtonText = "Fault";
+                match.P2_DoubleFaults++;
+                P1_Point();
+            }
+        }
+        void P1_ForehandWinner(object obj)
+        {
+            match.P1_ForehandWinners++;
+            match.P1_Winners++;
+
+            P1_Point();
+        }
+        void P2_ForehandWinner(object obj)
+        {
+            match.P2_ForehandWinners++;
+            match.P2_Winners++;
+
+            P2_Point();
+        }
+        void P1_BackhandWinner(object obj)
+        {
+            match.P1_BackhandWinners++;
+            match.P1_Winners++;
+
+            P1_Point();
+        }
+        void P2_BackhandWinner(object obj)
+        {
+            match.P2_BackhandWinners++;
+            match.P2_Winners++;
+
+            P2_Point();
+        }
+        void P1_ForehandUnforcedError(object obj)
+        {
+            match.P1_ForehandUnforcedErrors++;
+            match.P1_UnforcedErrors++;
+
+            P2_Point();
+        }
+        void P2_ForehandUnforcedError(object obj)
+        {
+            match.P2_ForehandUnforcedErrors++;
+            match.P2_UnforcedErrors++;
+
+            P1_Point();
+        }
+        void P1_BackhandUnforcedError(object obj)
+        {
+            match.P1_BackhandUnforcedErrors++;
+            match.P1_UnforcedErrors++;
+
+            P2_Point();
+        }
+        void P2_BackhandUnforcedError(object obj)
+        {
+            match.P2_BackhandUnforcedErrors++;
+            match.P2_UnforcedErrors++;
+
+            P1_Point();
+        }
+        void P1_ForcedError(object obj)
+        {
+            match.P1_ForcedErrors++;
+
+            P2_Point();
+        }
+        void P2_ForcedError(object obj)
+        {
+            match.P2_ForcedErrors++;
+
+            P1_Point();
+        }
+        void Refresh(object obj)
+        {
+            OnPropertyChanged(nameof(P1_Aces));
+            OnPropertyChanged(nameof(P1_DoubleFaults));
+            OnPropertyChanged(nameof(P1_Winners));
+            OnPropertyChanged(nameof(P1_ForehandWinners));
+            OnPropertyChanged(nameof(P1_BackhandWinners));
+            OnPropertyChanged(nameof(P1_UnforcedErrors));
+            OnPropertyChanged(nameof(P1_ForehandUnforcedErrors));
+            OnPropertyChanged(nameof(P1_BackhandUnforcedErrors));
+            OnPropertyChanged(nameof(P1_ForcedErrors));
+
+            OnPropertyChanged(nameof(P2_Aces));
+            OnPropertyChanged(nameof(P2_DoubleFaults));
+            OnPropertyChanged(nameof(P2_Winners));
+            OnPropertyChanged(nameof(P2_ForehandWinners));
+            OnPropertyChanged(nameof(P2_BackhandWinners));
+            OnPropertyChanged(nameof(P2_UnforcedErrors));
+            OnPropertyChanged(nameof(P2_ForehandUnforcedErrors));
+            OnPropertyChanged(nameof(P2_BackhandUnforcedErrors));
+            OnPropertyChanged(nameof(P2_ForcedErrors));
+
+            OnPropertyChanged(nameof(Aces));
+            OnPropertyChanged(nameof(DoubleFaults));
+            OnPropertyChanged(nameof(Winners));
+            OnPropertyChanged(nameof(ForehandWinners));
+            OnPropertyChanged(nameof(BackhandWinners));
+            OnPropertyChanged(nameof(UnforcedErrors));
+            OnPropertyChanged(nameof(ForehandUnforcedErrors));
+            OnPropertyChanged(nameof(BackhandUnforcedErrors));
+            OnPropertyChanged(nameof(ForcedErrors));
         }
         void P1_Point()
         {
             previousPoint = new Match(match);
             P1_PointsWon = (match.P1_PointsWon + 1).ToString();
+            _p1FirstFault = false;
+            _p2FirstFault = false;
 
             if (!match.TiebreakEnabled)
             {
@@ -561,6 +954,8 @@ namespace TennisMatchApp.ViewModels
         {
             previousPoint = new Match(match);
             P2_PointsWon = (match.P2_PointsWon + 1).ToString();
+            _p1FirstFault = false;
+            _p2FirstFault = false;
 
             if (!match.TiebreakEnabled)
             {
@@ -635,6 +1030,7 @@ namespace TennisMatchApp.ViewModels
             {
                 match.P1_BreakPointsWon++;
                 OnPropertyChanged(nameof(P1_BreakPointsWon));
+                OnPropertyChanged(nameof(BreakPointsWon));
             }
 
             P1_ActualScore = "0";
@@ -675,8 +1071,8 @@ namespace TennisMatchApp.ViewModels
                     OnPropertyChanged(nameof(FirstPlayerToServe));
                     OnPropertyChanged(nameof(SecondPlayerToServe));
 
-                    P1_Point_Clicked.ChangeCanExecute();
-                    P2_Point_Clicked.ChangeCanExecute();
+                    P1_Point_Command.ChangeCanExecute();
+                    P2_Point_Command.ChangeCanExecute();
                 }
                 else
                 {
@@ -695,6 +1091,7 @@ namespace TennisMatchApp.ViewModels
             {
                 match.P2_BreakPointsWon++;
                 OnPropertyChanged(nameof(P2_BreakPointsWon));
+                OnPropertyChanged(nameof(BreakPointsWon));
             }
 
             P1_ActualScore = "0";
@@ -735,8 +1132,8 @@ namespace TennisMatchApp.ViewModels
                     OnPropertyChanged(nameof(FirstPlayerToServe));
                     OnPropertyChanged(nameof(SecondPlayerToServe));
 
-                    P1_Point_Clicked.ChangeCanExecute();
-                    P2_Point_Clicked.ChangeCanExecute();
+                    P1_Point_Command.ChangeCanExecute();
+                    P2_Point_Command.ChangeCanExecute();
                 }
                 else
                 {
@@ -754,13 +1151,15 @@ namespace TennisMatchApp.ViewModels
             if ((((match.P1_ActualScore == 40 && match.P2_ActualScore < 40) || P1_ActualScore == "Ad") && !match.FirstPlayerToServe) || (match.P1_ActualScore == 40 && match.P2_ActualScore == 40 && !match.FirstPlayerToServe && !match.AdvantagePlay))
             {
                 match.P1_BreakPoints++;
-                OnPropertyChanged(nameof(P1_BreakPointsWon));
+                OnPropertyChanged(nameof(P1_BreakPoints));
             }
             if ((((match.P2_ActualScore == 40 && match.P1_ActualScore < 40) || P2_ActualScore == "Ad") && match.FirstPlayerToServe) || (match.P1_ActualScore == 40 && match.P2_ActualScore == 40 && match.FirstPlayerToServe && !match.AdvantagePlay))
             {
                 match.P2_BreakPoints++;
-                OnPropertyChanged(nameof(P2_BreakPointsWon));
+                OnPropertyChanged(nameof(P2_BreakPoints));
             }
+
+            OnPropertyChanged(nameof(BreakPoints));
         }
         bool Tick()
         {
@@ -771,5 +1170,6 @@ namespace TennisMatchApp.ViewModels
             }
             return true;
         }
+        #endregion
     }
 }

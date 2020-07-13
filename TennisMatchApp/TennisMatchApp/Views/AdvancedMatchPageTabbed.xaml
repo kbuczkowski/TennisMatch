@@ -10,7 +10,6 @@
     xmlns:vm="clr-namespace:TennisMatchApp.ViewModels"
     android:TabbedPage.IsSwipePagingEnabled="False"
     android:TabbedPage.ToolbarPlacement="Bottom"
-    android:TabbedPage.IsSmoothScrollEnabled="False"
     SelectedTabColor="#007AFF"
     UnselectedTabColor="#A0A0A0"
     mc:Ignorable="d">
