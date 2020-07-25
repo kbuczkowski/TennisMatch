@@ -2,6 +2,6 @@
 App to store info about your tennis matches and track player's statistics.
 Using app during match requires 3rd person to be chair umpire, unless you want to go press proper button every point of the game :)
 
-//screenshots to be added
+![Main Page](/images/screenshots.jpg)
 
 Created by Kacper Buczkowski
