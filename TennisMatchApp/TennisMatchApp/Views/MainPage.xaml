@@ -28,6 +28,19 @@
 
     <StackLayout Padding="0,5,0,0">
 
+        <materialFrame:MaterialFrame
+            Margin="10"
+            CornerRadius="25"
+            HeightRequest="25"
+            Style="{StaticResource LightFrame}">
+            <SearchBar
+                Margin="-20,0,0,0"
+                Placeholder="Search for matches"
+                PlaceholderColor="LightGray"
+                Text="{Binding SearchText}"
+                TextColor="Gray" />
+        </materialFrame:MaterialFrame>
+
         <ListView
             Margin="0,-5,0,0"
             HasUnevenRows="true"
@@ -94,7 +107,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+
     </StackLayout>
 
 </ContentPage>
