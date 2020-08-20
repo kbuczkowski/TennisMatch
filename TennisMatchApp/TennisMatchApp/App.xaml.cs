@@ -26,9 +26,7 @@ namespace TennisMatchApp
 
             file_path = p_file_path;
 
-            MainPage = new NavigationPage(new MainPage());
-
-            ((NavigationPage)Current.MainPage).BarBackgroundColor = Color.FromHex("#007AFF");
+            MainPage = new SlidingMenuPage();
         }
 
         protected override void OnStart()
